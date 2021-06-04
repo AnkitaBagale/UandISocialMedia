@@ -25,7 +25,7 @@ export const Profile = () => {
 		setUserDetails(response);
 		const postsResponse = posts.filter((post) => post.userId._id === id);
 		setPosts(postsResponse);
-	}, [id]);
+	}, [id, posts]);
 	return (
 		<>
 			{userDetails && (
