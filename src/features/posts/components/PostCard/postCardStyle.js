@@ -1,0 +1,56 @@
+export const postCardWrapperStyle = {
+	// border: '1px solid',
+	// borderColor: 'gray.600',
+	mb: '3rem',
+	borderRadius: 'xl',
+	boxShadow: '0px 0px 10px 4px rgb(0 0 0 / 5%)',
+};
+export const postCardUserInfoStyle = {
+	d: 'flex',
+	minHeight: '3.75rem',
+	padding: '0.5rem 1rem',
+	alignItems: 'center',
+	borderBottom: '1px solid',
+	borderColor: 'gray.400',
+};
+
+export const smallAvatarStyle = {
+	mr: '1rem',
+	size: 'sm',
+};
+
+export const smallAvatarLabelStyle = {
+	fontSize: '1rem',
+	fontWeight: '600',
+};
+
+export const postCardContentStyle = {
+	p: '1rem',
+	size: 'lg',
+};
+
+export const postCardFooterStyle = {
+	borderTop: '1px solid',
+	borderColor: 'gray.400',
+	p: '0.5rem 1rem',
+	fontSize: '0.9rem',
+};
+
+export const postActionButtonsWrapperStyle = {
+	w: '100%',
+	spacing: '1rem',
+	variant: 'ghost',
+};
+
+export const iconButtonStyle = {
+	minW: '1.2rem',
+	_active: {
+		color: 'pink.900',
+	},
+};
+
+export const userNameInCaptionStyle = {
+	fontWeight: '600',
+	pr: '0.25rem',
+	as: 'span',
+};

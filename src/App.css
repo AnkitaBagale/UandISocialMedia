@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap');
+.App {
+	padding: 2rem 1.5rem;
+	min-height: 70vh;
+}
+
+.icon-btn {
+	font-size: 1.2rem;
+}
+
+.icon-btn-nav-item {
+	font-size: 1.3rem;
+}
+
+.primary-text-color {
+	color: 'ff3f6c';
+}
