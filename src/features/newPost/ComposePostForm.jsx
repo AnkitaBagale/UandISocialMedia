@@ -20,14 +20,14 @@ import { useReducer, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { currentUser } from '../../database/database';
 import { iconNavItemStyle } from '../nav/navStyles';
-import { btnStyles, solidPrimaryButtonStyle } from '../utils/buttonStyles';
+import { btnStyles, solidPrimaryButtonStyle } from '../utils';
 import {
 	errorSymbolStyle,
 	errorWrapperStyle,
 	InputStyle,
 	mdAvatarStyle,
 } from './formStyle';
-import { createPostButtonClicked } from '../posts/postSlice';
+import { createPostBtnClicked } from '../posts/postSlice';
 import {
 	initialStateOfPostForm,
 	newPostFormReducer,
@@ -63,20 +63,10 @@ export const ComposePostForm = () => {
 			});
 		} else {
 			const newPostDetails = {
-				_id: uuidv4(),
 				caption: formState.caption,
 				content: formState.content,
-				totalLikes: 0,
-				likedByViewer: false,
-				savedByViewer: false,
-				userId: {
-					_id: currentUser._id,
-					name: currentUser.name,
-					userName: currentUser.userName,
-				},
-				time: new Date().toDateString(),
 			};
-			dispatch(createPostButtonClicked({ post: newPostDetails }));
+			dispatch(createPostBtnClicked({ post: newPostDetails }));
 			formDispatch({
 				type: CLEAR_FORM,
 			});

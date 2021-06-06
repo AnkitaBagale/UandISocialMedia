@@ -1,31 +1,49 @@
 import { Avatar } from '@chakra-ui/avatar';
 import { Button } from '@chakra-ui/button';
-import { HStack } from '@chakra-ui/layout';
-import { VStack } from '@chakra-ui/layout';
-import { Link } from '@chakra-ui/layout';
-import { Text } from '@chakra-ui/layout';
-import { Box, Flex } from '@chakra-ui/layout';
-import { users } from '../../../database/database';
-import {
-	btnStyles,
-	outlineSecondaryButtonStyle,
-} from '../../utils/buttonStyles';
+import { HStack, VStack, Link, Text, Box, Flex } from '@chakra-ui/layout';
+import { API_URL, btnStyles, outlineSecondaryButtonStyle } from '../../utils';
 import { countStyle } from './profileStyles';
 import { PostCard } from '../../posts/components/PostCard/PostCard';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { usePostSelector } from '../../posts/postSlice';
+import { useAuthentication } from '../../authentication/authenticationSlice';
+import axios from 'axios';
 export const Profile = () => {
 	const [userDetails, setUserDetails] = useState(null);
 	const [postsDetails, setPosts] = useState([]);
-	const { id } = useParams();
+	const { userName } = useParams();
+	const { userName: viewerUserName } = useAuthentication();
+
 	const posts = usePostSelector();
 	useEffect(() => {
-		const response = users.find((user) => user._id === id);
-		setUserDetails(response);
-		const postsResponse = posts.filter((post) => post.userId._id === id);
-		setPosts(postsResponse);
-	}, [id, posts]);
+		(async () => {
+			try {
+				const {
+					data: { response },
+				} = await axios.get(`${API_URL}/social-profiles/${userName}`);
+				setUserDetails(response);
+				const postsResponse = posts.filter(
+					(post) => post.userId.userName === userName,
+				);
+				setPosts(postsResponse);
+			} catch (error) {
+				console.log(error);
+			}
+		})();
+	}, [userName, posts]);
+
+	const getButton = () => {
+		return viewerUserName === userName ? (
+			<Button {...btnStyles} {...outlineSecondaryButtonStyle}>
+				Edit Profile
+			</Button>
+		) : (
+			<Button {...btnStyles} {...outlineSecondaryButtonStyle}>
+				{userDetails.followedByViewer ? 'Following' : 'Follow'}
+			</Button>
+		);
+	};
 	return (
 		<>
 			{userDetails && (
@@ -46,9 +64,7 @@ export const Profile = () => {
 								<Text pr='1.5rem' fontSize='2xl' fontWeight='300'>
 									{userDetails.userName}
 								</Text>
-								<Button {...btnStyles} {...outlineSecondaryButtonStyle}>
-									Edit Profile
-								</Button>
+								{getButton()}
 							</HStack>
 
 							<HStack spacing='1.5rem' mb='1rem'>

@@ -1,37 +1,69 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { posts } from '../../database/database';
+import { API_URL } from '../utils';
 
+export const loadPosts = createAsyncThunk('posts/loadPosts', async () => {
+	const {
+		data: { response },
+	} = await axios.get(`${API_URL}/posts`);
+	return response;
+});
+
+export const createPostBtnClicked = createAsyncThunk(
+	'posts/createPostBtnClicked',
+	async ({ post }) => {
+		const {
+			data: { response },
+		} = await axios.post(`${API_URL}/posts`, {
+			...post,
+		});
+		return response;
+	},
+);
+
+export const likeButtonClicked = createAsyncThunk(
+	'posts/likeButtonClicked',
+	async ({ postId }) => {
+		await axios.post(`${API_URL}/posts/${postId}/likedby`);
+		return { postId };
+	},
+);
 export const postSlice = createSlice({
 	name: 'posts',
-	initialState: { posts: posts },
-	reducers: {
-		createPostButtonClicked: (state, action) => {
-			state.posts.push(action.payload.post);
+	initialState: { posts: [], status: 'idle' },
+	reducers: {},
+	extraReducers: {
+		[loadPosts.fulfilled]: (state, action) => {
+			state.posts = action.payload;
+			state.status = 'succeeded';
 		},
-		likeButtonClicked: (state, action) => {
+		[loadPosts.rejected]: (state, action) => {
+			console.log(action.error.message);
+			state.status = 'failed';
+		},
+		[createPostBtnClicked.fulfilled]: (state, action) => {
+			state.posts.unshift(action.payload);
+		},
+		[createPostBtnClicked.rejected]: (state, action) => {
+			console.log(action.error.message);
+		},
+		[likeButtonClicked.fulfilled]: (state, action) => {
 			const index = state.posts.findIndex(
 				(post) => post._id === action.payload.postId,
 			);
-
 			const currentLikedState = state.posts[index].likedByViewer;
 			state.posts[index].likedByViewer = !currentLikedState;
 			state.posts[index].totalLikes = currentLikedState
 				? state.posts[index].totalLikes - 1
 				: state.posts[index].totalLikes + 1;
 		},
-		saveButtonClicked: (state, action) => {
-			const index = state.posts.findIndex(
-				(post) => post._id === action.payload.postId,
-			);
-			state.posts[index].savedByViewer = !state.posts[index].savedByViewer;
+		[likeButtonClicked.rejected]: (state, action) => {
+			console.log(action.error.message);
 		},
 	},
 });
 
-export const { createPostButtonClicked, likeButtonClicked, saveButtonClicked } =
-	postSlice.actions;
-
 export default postSlice.reducer;
 
-export const usePostSelector = () => useSelector((state) => state.posts.posts);
+export const usePostSelector = () => useSelector((state) => state.posts);

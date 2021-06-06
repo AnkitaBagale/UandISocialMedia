@@ -2,11 +2,12 @@ import { Avatar } from '@chakra-ui/avatar';
 import { IconButton } from '@chakra-ui/button';
 import { Box, HStack } from '@chakra-ui/layout';
 import { Link } from 'react-router-dom';
-import { currentUser } from '../../database/database';
+import { useAuthentication } from '../authentication/authenticationSlice';
 import { ComposePostForm } from '../newPost/ComposePostForm';
 import { avatarWrapperStyle, avatarStyle, iconNavItemStyle } from './navStyles';
 
 export const DesktopNav = () => {
+	const { userName } = useAuthentication();
 	return (
 		<HStack ml={10} spacing='1rem' alignItems='center'>
 			<ComposePostForm />
@@ -33,11 +34,11 @@ export const DesktopNav = () => {
 						icon={<i className='far fa-bell icon-btn-nav-item'></i>}
 					/>
 				</Link>
-				<Link to={`/profile/${currentUser._id}`}>
+				<Link to={`/profile/${userName}`}>
 					<Box {...avatarWrapperStyle}>
 						<Avatar
 							{...avatarStyle}
-							name={currentUser.userName}
+							name={userName}
 							src='https://bit.ly/broken-link'
 						/>
 					</Box>

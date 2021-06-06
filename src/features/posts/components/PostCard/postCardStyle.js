@@ -44,9 +44,6 @@ export const postActionButtonsWrapperStyle = {
 
 export const iconButtonStyle = {
 	minW: '1.2rem',
-	_active: {
-		color: 'pink.900',
-	},
 };
 
 export const userNameInCaptionStyle = {

@@ -9,7 +9,6 @@ export const posts = [
 		savedByViewer: false,
 		userId: {
 			_id: '1',
-			name: 'Ankita Bagale',
 			userName: 'Ankita',
 		},
 		time: 'Fri Jun 04 2021',
@@ -23,7 +22,6 @@ export const posts = [
 		likedByViewer: false,
 		userId: {
 			_id: '2',
-			name: 'Pooja Sabnani',
 			userName: 'Pooja',
 		},
 		time: 'Fri Jun 04 2021',
@@ -38,7 +36,6 @@ export const posts = [
 		savedByViewer: false,
 		userId: {
 			_id: '3',
-			name: 'R. Sruthi',
 			userName: 'Sruthi',
 		},
 		time: 'Fri Jun 04 2021',

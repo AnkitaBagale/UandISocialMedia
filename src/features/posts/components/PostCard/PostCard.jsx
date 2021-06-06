@@ -1,7 +1,7 @@
 import { Avatar, Box, ButtonGroup, IconButton, Text } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { likeButtonClicked, saveButtonClicked } from '../../postSlice';
+import { likeButtonClicked } from '../../postSlice';
 import {
 	postCardUserInfoStyle,
 	postCardWrapperStyle,
@@ -28,7 +28,9 @@ export const PostCard = ({ post }) => {
 						name={post.userId.userName}
 						src='https://bit.ly/tioluwani-kolawole'
 					/>
-					<Link to={`/profile/${post.userId._id}`} {...smallAvatarLabelStyle}>
+					<Link
+						to={`/profile/${post.userId.userName}`}
+						{...smallAvatarLabelStyle}>
 						{post.userId.userName}
 					</Link>
 				</Box>
@@ -41,13 +43,6 @@ export const PostCard = ({ post }) => {
 							{...iconButtonStyle}
 							aria-label='Search database'
 							icon={<i className='fas fa-heart icon-btn'></i>}
-						/>
-						<IconButton
-							onClick={() => dispatch(saveButtonClicked({ postId: post._id }))}
-							color={getColorForIconButton(post.savedByViewer)}
-							{...iconButtonStyle}
-							aria-label='Search database'
-							icon={<i className='fas fa-bookmark icon-btn'></i>}
 						/>
 						<IconButton
 							color='gray.500'
