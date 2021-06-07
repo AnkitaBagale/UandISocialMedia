@@ -12,7 +12,7 @@ export const Posts = () => {
 		if (status === 'idle') {
 			dispatch(loadPosts());
 		}
-	}, [status]);
+	}, [status, dispatch]);
 	return (
 		<Box maxW='40rem' margin='auto'>
 			{posts.map((post) => (

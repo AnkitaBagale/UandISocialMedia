@@ -23,7 +23,6 @@ import { loginFormReducer, initialFormState } from './reducers';
 import { btnStyles, solidPrimaryButtonStyle } from '../../utils';
 import { loginBtnClicked } from '../authenticationSlice';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 export const Login = () => {
 	const [formState, formDispatch] = useReducer(

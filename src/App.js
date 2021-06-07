@@ -20,7 +20,7 @@ function App() {
 	}
 	useEffect(() => {
 		setAxiosErrorHandler(navigate);
-	}, [setAxiosErrorHandler]);
+	}, [navigate]);
 	return (
 		<div>
 			<Nav />

@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { API_URL } from '../utils';
@@ -8,7 +8,6 @@ import { getLocalStorage, setLocalStorage } from './utils/setLocalStorage';
 export const loginBtnClicked = createAsyncThunk(
 	'authenticate/loginBtnClicked',
 	async ({ email, password }) => {
-		console.log('i was in thunk');
 		const {
 			data: { response },
 		} = await axios({

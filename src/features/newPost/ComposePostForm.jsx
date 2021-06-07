@@ -34,7 +34,6 @@ import {
 	ACTIONS,
 } from './reducer/newPostFormReducer';
 
-import { v4 as uuidv4 } from 'uuid';
 export const ComposePostForm = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const initialRef = useRef();
