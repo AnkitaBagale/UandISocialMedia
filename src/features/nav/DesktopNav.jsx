@@ -22,12 +22,7 @@ export const DesktopNav = () => {
 						icon={<i className='nav-icon fas fa-home icon-btn-nav-item'></i>}
 					/>
 				</Link>
-				<Link to='/search'>
-					<IconButton
-						{...iconNavItemStyle}
-						icon={<i className='fas fa-search icon-btn-nav-item'></i>}
-					/>
-				</Link>
+
 				<Link to='/notification'>
 					<IconButton
 						{...iconNavItemStyle}

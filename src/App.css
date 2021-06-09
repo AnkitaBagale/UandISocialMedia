@@ -15,3 +15,11 @@
 .primary-text-color {
 	color: 'ff3f6c';
 }
+
+.link-text {
+	text-decoration: none;
+}
+
+.link-text:hover {
+	text-decoration: underline;
+}

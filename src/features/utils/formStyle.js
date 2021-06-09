@@ -5,7 +5,7 @@ export const formWrapperStyle = {
 	mt: '2rem',
 	mb: '2rem',
 	boxShadow: 'md',
-	p: '2rem 1.5rem',
+	p: '2rem 3rem',
 };
 
 export const headingStyle = {
@@ -39,7 +39,7 @@ export const inputWrapperStyle = {
 	alignItems: 'center',
 };
 
-export const eyeIconButtonWrapperStyle = {
+export const inputRightElementWrapperStyle = {
 	p: '0.5rem',
 	width: '3rem',
 	d: 'flex',
@@ -47,7 +47,7 @@ export const eyeIconButtonWrapperStyle = {
 	alignItems: 'center',
 };
 
-export const eyeIconButtonStyle = {
+export const inputRightElementStyle = {
 	size: 'sm',
 	color: 'gray.700',
 	w: '1.5rem',
@@ -59,7 +59,7 @@ export const eyeIconButtonStyle = {
 	},
 };
 
-export const eyeIconStyle = {
+export const inputRightElementIconStyle = {
 	w: '1.2rem',
 	h: '1.2rem',
 };

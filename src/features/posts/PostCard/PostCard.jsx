@@ -1,12 +1,12 @@
 import { Avatar, Box, ButtonGroup, IconButton, Text } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { likeButtonClicked } from '../../postSlice';
+import { likeButtonClicked, userLikesClicked } from '../postSlice';
+
 import {
 	postCardUserInfoStyle,
 	postCardWrapperStyle,
 	smallAvatarStyle,
-	smallAvatarLabelStyle,
 	postCardContentStyle,
 	postCardFooterStyle,
 	postActionButtonsWrapperStyle,
@@ -18,6 +18,24 @@ export const PostCard = ({ post }) => {
 	const getColorForIconButton = (criteria) =>
 		criteria ? 'pink.800' : 'gray.500';
 
+	const getLikesText = (totalLikes) => {
+		return totalLikes === 0 ? (
+			<Box
+				className='link-text'
+				as='button'
+				onClick={() => dispatch(likeButtonClicked({ postId: post._id }))}>
+				Be the first to like this
+			</Box>
+		) : (
+			<Box
+				className='link-text'
+				as='button'
+				onClick={() => dispatch(userLikesClicked({ postId: post._id }))}>
+				Liked by {post.totalLikes} people
+			</Box>
+		);
+	};
+
 	const dispatch = useDispatch();
 	return (
 		<>
@@ -28,9 +46,7 @@ export const PostCard = ({ post }) => {
 						name={post.userId.userName}
 						src='https://bit.ly/tioluwani-kolawole'
 					/>
-					<Link
-						to={`/profile/${post.userId.userName}`}
-						{...smallAvatarLabelStyle}>
+					<Link className='link-text' to={`/profile/${post.userId.userName}`}>
 						{post.userId.userName}
 					</Link>
 				</Box>
@@ -51,9 +67,11 @@ export const PostCard = ({ post }) => {
 							icon={<i className='fas fa-share-alt icon-btn'></i>}
 						/>
 					</ButtonGroup>
-					<Box>{`Liked by ${post.totalLikes} people`}</Box>
+					{getLikesText(post.totalLikes)}
 					<Box pt='0.5rem'>
-						<Text {...userNameInCaptionStyle}>{post.userId.userName}</Text>
+						<Link to={`/profile/${post.userId.userName}`} className='link-text'>
+							<Text {...userNameInCaptionStyle}>{post.userId.userName}</Text>
+						</Link>
 						{post.caption}
 					</Box>
 

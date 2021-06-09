@@ -3,6 +3,7 @@ import { useDisclosure } from '@chakra-ui/hooks';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { Box, Flex } from '@chakra-ui/layout';
 import { useAuthentication } from '../authentication/authenticationSlice';
+import { SearchBar } from '../users/SearchBar';
 import { DesktopNav } from './DesktopNav';
 import { Logo } from './Logo';
 import { MobileNav } from './MobileNav';
@@ -24,10 +25,12 @@ export const Nav = () => {
 								aria-label={'Toggle Navigation'}
 							/>
 						</Flex>
-						<Flex justify={{ base: 'center', md: 'start' }}>
+						<Flex display={{ base: 'none', md: 'flex' }}>
 							<Logo />
 						</Flex>
 					</Flex>
+
+					<SearchBar />
 
 					<DesktopNav />
 				</Flex>

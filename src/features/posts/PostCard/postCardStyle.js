@@ -19,11 +19,6 @@ export const smallAvatarStyle = {
 	size: 'sm',
 };
 
-export const smallAvatarLabelStyle = {
-	fontSize: '1rem',
-	fontWeight: '600',
-};
-
 export const postCardContentStyle = {
 	p: '1rem',
 	size: 'lg',

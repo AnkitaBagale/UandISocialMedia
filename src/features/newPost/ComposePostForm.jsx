@@ -18,7 +18,6 @@ import {
 } from '@chakra-ui/react';
 import { useReducer, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { currentUser } from '../../database/database';
 import { iconNavItemStyle } from '../nav/navStyles';
 import { btnStyles, solidPrimaryButtonStyle } from '../utils';
 import {
@@ -26,13 +25,14 @@ import {
 	errorWrapperStyle,
 	InputStyle,
 	mdAvatarStyle,
-} from './formStyle';
+} from './composePostFormStyle';
 import { createPostBtnClicked } from '../posts/postSlice';
 import {
 	initialStateOfPostForm,
 	newPostFormReducer,
 	ACTIONS,
 } from './reducer/newPostFormReducer';
+import { useAuthentication } from '../authentication/authenticationSlice';
 
 export const ComposePostForm = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
@@ -42,6 +42,7 @@ export const ComposePostForm = () => {
 		newPostFormReducer,
 		initialStateOfPostForm,
 	);
+	const { userName } = useAuthentication();
 
 	const {
 		SET_CAPTION,
@@ -93,7 +94,7 @@ export const ComposePostForm = () => {
 						<Flex mt='1rem'>
 							<Avatar
 								{...mdAvatarStyle}
-								name={currentUser.userName}
+								name={userName}
 								src='https://bit.ly/broken-link'
 							/>
 							<Box w='100%'>

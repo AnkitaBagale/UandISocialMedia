@@ -29,10 +29,30 @@ export const likeButtonClicked = createAsyncThunk(
 		return { postId };
 	},
 );
+
+export const userLikesClicked = createAsyncThunk(
+	'posts/userLikesClicked',
+	async ({ postId }) => {
+		const {
+			data: { response },
+		} = await axios.get(`${API_URL}/posts/${postId}/likedby`);
+		return response;
+	},
+);
 export const postSlice = createSlice({
 	name: 'posts',
-	initialState: { posts: [], status: 'idle' },
-	reducers: {},
+	initialState: {
+		posts: [],
+		status: 'idle',
+		usersWhoLikedPost: [],
+		showLikesContainer: false,
+	},
+	reducers: {
+		closeBtnInLikesContainerClicked: (state, action) => {
+			state.showLikesContainer = false;
+			state.usersWhoLikedPost = [];
+		},
+	},
 	extraReducers: {
 		[loadPosts.fulfilled]: (state, action) => {
 			state.posts = action.payload;
@@ -61,9 +81,16 @@ export const postSlice = createSlice({
 		[likeButtonClicked.rejected]: (state, action) => {
 			console.log(action.error.message);
 		},
+		[userLikesClicked.fulfilled]: (state, action) => {
+			state.showLikesContainer = true;
+			state.usersWhoLikedPost = action.payload;
+		},
+		[userLikesClicked.rejected]: (state, action) => {
+			console.log(action.error.message);
+		},
 	},
 });
 
 export default postSlice.reducer;
-
+export const { closeBtnInLikesContainerClicked } = postSlice.actions;
 export const usePostSelector = () => useSelector((state) => state.posts);

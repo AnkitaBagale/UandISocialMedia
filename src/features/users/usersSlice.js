@@ -1,6 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { API_URL } from '../utils';
 
-export const loadUsers = createAsyncThunk('posts/loadUsers', async () => {
+export const loadUsers = createAsyncThunk('users/loadUsers', async () => {
 	const {
 		data: { response },
 	} = await axios.get(`${API_URL}/social-profiles`);
@@ -22,3 +25,6 @@ export const usersSlice = createSlice({
 		},
 	},
 });
+
+export const useUsers = () => useSelector((state) => state.users);
+export default usersSlice.reducer;

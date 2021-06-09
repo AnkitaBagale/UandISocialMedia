@@ -1,7 +1,7 @@
 import { CloseIcon } from '@chakra-ui/icons';
 import { VStack, Slide, Box, IconButton, Avatar } from '@chakra-ui/react';
 import { Link, NavLink } from 'react-router-dom';
-import { currentUser } from '../../database/database';
+import { useAuthentication } from '../authentication/authenticationSlice';
 
 export const NAV_ITEMS = [
 	{
@@ -15,6 +15,7 @@ export const NAV_ITEMS = [
 ];
 
 export const MobileNav = ({ isOpen, onToggle }) => {
+	const { userName } = useAuthentication();
 	return (
 		<Slide direction='left' left='0' top='0' in={isOpen} style={{ zIndex: 10 }}>
 			<Box
@@ -44,8 +45,13 @@ export const MobileNav = ({ isOpen, onToggle }) => {
 						onClick={onToggle}
 						icon={<CloseIcon w={4} h={4} />}
 					/>
-					<Link to={`/profile/${currentUser._id}`}>
-						<Avatar position='relative' left='-1rem' />
+					<Link to={`/profile/${userName}`}>
+						<Avatar
+							name={userName}
+							position='relative'
+							left='-1rem'
+							src='https://bit.ly/broken-link'
+						/>
 					</Link>
 				</Box>
 

@@ -1,1 +1,1 @@
-export * from './login-form.reducer';
+export * from './loginForm.reducer';

@@ -23,7 +23,17 @@ export const authenticationSlice = createSlice({
 	initialState: {
 		authentication: getLocalStorage(),
 	},
-	reducers: {},
+	reducers: {
+		logoutUser: (state) => {
+			Object.assign(state.authentication, {
+				token: '',
+				name: '',
+				userName: '',
+				userId: '',
+			});
+			localStorage?.removeItem('session');
+		},
+	},
 	extraReducers: {
 		[loginBtnClicked.fulfilled]: (state, action) => {
 			Object.assign(state.authentication, { ...action.payload.userDetails });
@@ -36,6 +46,7 @@ export const authenticationSlice = createSlice({
 	},
 });
 
+export const { logoutUser } = authenticationSlice.actions;
 export default authenticationSlice.reducer;
 export const useAuthentication = () =>
 	useSelector((state) => state.authentication.authentication);

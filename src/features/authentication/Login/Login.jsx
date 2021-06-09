@@ -6,24 +6,28 @@ import {
 	InputRightElement,
 	Button,
 	Heading,
+	Divider,
+	Text,
+	Image,
 } from '@chakra-ui/react';
 import { useReducer } from 'react';
 import {
 	formWrapperStyle,
 	inputWrapperStyle,
-	eyeIconButtonWrapperStyle,
+	inputRightElementWrapperStyle,
 	InputStyle,
-	eyeIconButtonStyle,
-	eyeIconStyle,
+	inputRightElementStyle,
+	inputRightElementIconStyle,
 	headingStyle,
-} from '../utils';
+} from '../../utils';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { checkLoginFormValidity } from './utils';
 import { loginFormReducer, initialFormState } from './reducers';
 import { btnStyles, solidPrimaryButtonStyle } from '../../utils';
 import { loginBtnClicked } from '../authenticationSlice';
 import { useDispatch } from 'react-redux';
-
+import { Link } from 'react-router-dom';
+import logo from '../assets/logo.png';
 export const Login = () => {
 	const [formState, formDispatch] = useReducer(
 		loginFormReducer,
@@ -95,14 +99,14 @@ export const Login = () => {
 										})
 									}
 								/>
-								<InputRightElement {...eyeIconButtonWrapperStyle}>
+								<InputRightElement {...inputRightElementWrapperStyle}>
 									<Button
 										onClick={() => formDispatch({ type: 'SHOW_PASSWORD' })}
-										{...eyeIconButtonStyle}>
+										{...inputRightElementStyle}>
 										{formState.showPassword ? (
-											<ViewIcon {...eyeIconStyle} />
+											<ViewIcon {...inputRightElementIconStyle} />
 										) : (
-											<ViewOffIcon {...eyeIconStyle} />
+											<ViewOffIcon {...inputRightElementIconStyle} />
 										)}
 									</Button>
 								</InputRightElement>
@@ -110,8 +114,9 @@ export const Login = () => {
 							</Box>
 						</FormControl>
 
-						<Box mt='2rem'>
+						<Box mt='2rem' w='100%'>
 							<Button
+								w='100%'
 								onClick={() => {
 									loginUser();
 								}}
@@ -120,17 +125,68 @@ export const Login = () => {
 								Login
 							</Button>
 						</Box>
+
+						<DividerWithTextOverlay />
+						<LoginWithUandIOption />
 					</Box>
-					{/* <p>
-						sign up here <Link to='/signup'>Signup</Link>
-					</p> */}
-					{/* {formState.status === 'LOADING' && (
-						<Box {...overlayBoxStyle}>
-							<Loader type='TailSpin' color='#ff3f6c' height={80} width={80} />
-						</Box>
-					)} */}
 				</Box>
 			</Box>
+			<SignUpOption />
 		</>
+	);
+};
+
+export const DividerWithTextOverlay = () => {
+	return (
+		<Box position='relative'>
+			<Divider mt='2rem' borderColor='gray.500' />
+			<Text
+				fontSize='0.8rem'
+				color='gray.500'
+				position='absolute'
+				top='-1.25rem'
+				left='calc(50% - 1.6875rem)'
+				bg='white'
+				p='0.5rem 1rem'>
+				OR
+			</Text>
+		</Box>
+	);
+};
+
+export const LoginWithUandIOption = () => {
+	return (
+		<Box mt='2rem' w='100%'>
+			<Box
+				as='button'
+				w='100%'
+				color='pink.800'
+				fontWeight='500'
+				fontSize='0.9rem'>
+				<Image
+					d='inline-block'
+					src={logo}
+					ht='1.5rem'
+					w='1.5rem'
+					mr='0.25rem'
+				/>
+				Log in with U&I
+			</Box>
+		</Box>
+	);
+};
+
+export const SignUpOption = () => {
+	return (
+		<Box {...formWrapperStyle}>
+			<Box textAlign='center'>
+				Don't have an account?
+				<Text as='button' color='pink.700' fontWeight='500'>
+					<Link className='link-text' to='/signup'>
+						Sign up
+					</Link>
+				</Text>
+			</Box>
+		</Box>
 	);
 };
