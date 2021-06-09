@@ -13,15 +13,39 @@ export const loginBtnClicked = createAsyncThunk(
 		} = await axios({
 			method: 'POST',
 			url: `${API_URL}/social-profiles/login`,
-			headers: { email: email, password: password },
+			headers: { email, password },
 		});
 		return { userDetails: response };
 	},
 );
+
+export const signupBtnClicked = createAsyncThunk(
+	'authenticate/signupBtnClicked',
+	async (userDetails, { rejectWithValue }) => {
+		try {
+			const {
+				data: { response },
+			} = await axios({
+				method: 'POST',
+				url: `${API_URL}/social-profiles/signup`,
+				data: { ...userDetails },
+			});
+			return response;
+		} catch (error) {
+			const message = error.response.data.message;
+			return rejectWithValue(message);
+		}
+	},
+);
+
 export const authenticationSlice = createSlice({
 	name: 'authentication',
 	initialState: {
 		authentication: getLocalStorage(),
+		signUp: {
+			signUpStatus: 'idle',
+			signUpError: '',
+		},
 	},
 	reducers: {
 		logoutUser: (state) => {
@@ -41,7 +65,18 @@ export const authenticationSlice = createSlice({
 			setAuthorizationHeader(action.payload.userDetails.token);
 		},
 		[loginBtnClicked.rejected]: (state, action) => {
-			console.log(action.error);
+			console.log({ error: action });
+		},
+		[signupBtnClicked.pending]: (state, action) => {
+			state.signUp.signUpStatus = 'loading';
+		},
+
+		[signupBtnClicked.fulfilled]: (state, action) => {
+			state.signUp.signUpStatus = 'success';
+		},
+		[signupBtnClicked.rejected]: (state, action) => {
+			state.signUp.signUpStatus = 'failure';
+			state.signUp.signUpError = action.payload;
 		},
 	},
 });
@@ -49,4 +84,4 @@ export const authenticationSlice = createSlice({
 export const { logoutUser } = authenticationSlice.actions;
 export default authenticationSlice.reducer;
 export const useAuthentication = () =>
-	useSelector((state) => state.authentication.authentication);
+	useSelector((state) => state.authentication);

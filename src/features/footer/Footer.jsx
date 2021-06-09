@@ -10,7 +10,9 @@ import {
 import { useAuthentication } from '../authentication/authenticationSlice';
 
 export const Footer = () => {
-	const { token } = useAuthentication();
+	const {
+		authentication: { token },
+	} = useAuthentication();
 	return (
 		token && (
 			<>

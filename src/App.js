@@ -13,9 +13,12 @@ import { setAuthorizationHeader } from './features/authentication/utils/setAutho
 import { setAxiosErrorHandler } from './features/authentication/utils/setAxiosErrorHandler';
 import { useDispatch } from 'react-redux';
 import { loadUsers } from './features/users/usersSlice';
+import { SignUp } from './features/authentication/SingUp/SignUp';
 
 function App() {
-	const { token } = useAuthentication();
+	const {
+		authentication: { token },
+	} = useAuthentication();
 	const dispatch = useDispatch();
 
 	if (token) {
@@ -24,11 +27,11 @@ function App() {
 
 	useEffect(() => {
 		setAxiosErrorHandler(dispatch);
-	}, [dispatch]);
+	}, [dispatch, token]);
 
 	useEffect(() => {
 		dispatch(loadUsers());
-	}, [dispatch]);
+	}, [dispatch, token]);
 
 	return (
 		<div>
@@ -39,6 +42,7 @@ function App() {
 					<PrivateRoute path='/profile/:userName' element={<Profile />} />
 
 					<PublicRoute path='/login' element={<Login />} />
+					<PublicRoute path='/signup' element={<SignUp />} />
 				</Routes>
 			</div>
 			<Footer />

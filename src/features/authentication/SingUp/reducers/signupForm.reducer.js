@@ -1,10 +1,12 @@
 export const initialFormState = {
 	email: '',
+	userName: '',
 	firstName: '',
 	lastName: '',
 	password: '',
 	showPassword: false,
 	emailError: '',
+	userNameError: '',
 	firstNameError: '',
 	lastNameError: '',
 	passwordError: '',
@@ -14,6 +16,9 @@ export const signupFormReducer = (formState, action) => {
 	switch (action.type) {
 		case 'SET_EMAIL': {
 			return { ...formState, email: action.payload };
+		}
+		case 'SET_USERNAME': {
+			return { ...formState, userName: action.payload };
 		}
 		case 'SET_FIRST_NAME': {
 			return { ...formState, firstName: action.payload };
@@ -30,6 +35,9 @@ export const signupFormReducer = (formState, action) => {
 		case 'SET_EMAIL_ERROR': {
 			return { ...formState, emailError: action.payload };
 		}
+		case 'SET_USERNAME_ERROR': {
+			return { ...formState, userNameError: action.payload };
+		}
 		case 'SET_FIRST_NAME_ERROR': {
 			return { ...formState, firstNameError: action.payload };
 		}
@@ -43,6 +51,7 @@ export const signupFormReducer = (formState, action) => {
 			return {
 				...formState,
 				emailError: '',
+				userNameError: '',
 				firstNameError: '',
 				lastNameError: '',
 				passwordError: '',

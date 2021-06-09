@@ -20,7 +20,9 @@ export const Profile = () => {
 	const [userDetails, setUserDetails] = useState(null);
 	const [postsDetails, setPosts] = useState([]);
 	const { userName } = useParams();
-	const { userName: viewerUserName } = useAuthentication();
+	const {
+		authentication: { userName: viewerUserName },
+	} = useAuthentication();
 	const dispatch = useDispatch();
 	const { posts } = usePostSelector();
 	useEffect(() => {

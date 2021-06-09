@@ -15,7 +15,9 @@ export const NAV_ITEMS = [
 ];
 
 export const MobileNav = ({ isOpen, onToggle }) => {
-	const { userName } = useAuthentication();
+	const {
+		authentication: { userName },
+	} = useAuthentication();
 	return (
 		<Slide direction='left' left='0' top='0' in={isOpen} style={{ zIndex: 10 }}>
 			<Box

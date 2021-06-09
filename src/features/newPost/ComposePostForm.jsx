@@ -42,7 +42,9 @@ export const ComposePostForm = () => {
 		newPostFormReducer,
 		initialStateOfPostForm,
 	);
-	const { userName } = useAuthentication();
+	const {
+		authentication: { userName },
+	} = useAuthentication();
 
 	const {
 		SET_CAPTION,

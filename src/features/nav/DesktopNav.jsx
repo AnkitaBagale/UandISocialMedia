@@ -7,7 +7,9 @@ import { ComposePostForm } from '../newPost/ComposePostForm';
 import { avatarWrapperStyle, avatarStyle, iconNavItemStyle } from './navStyles';
 
 export const DesktopNav = () => {
-	const { userName } = useAuthentication();
+	const {
+		authentication: { userName },
+	} = useAuthentication();
 	return (
 		<HStack ml={10} spacing='1rem' alignItems='center'>
 			<ComposePostForm />

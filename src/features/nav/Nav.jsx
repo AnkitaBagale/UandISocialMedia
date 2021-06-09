@@ -11,7 +11,9 @@ import { iconWrapperStyle, navWrapperStyle } from './navStyles';
 
 export const Nav = () => {
 	const { isOpen, onToggle } = useDisclosure();
-	const { token } = useAuthentication();
+	const {
+		authentication: { token },
+	} = useAuthentication();
 	return (
 		token && (
 			<Box position='sticky' top='0' zIndex={3}>
