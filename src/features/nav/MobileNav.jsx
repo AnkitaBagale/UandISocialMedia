@@ -1,6 +1,6 @@
+import { Link, NavLink } from 'react-router-dom';
 import { CloseIcon } from '@chakra-ui/icons';
 import { VStack, Slide, Box, IconButton, Avatar } from '@chakra-ui/react';
-import { Link, NavLink } from 'react-router-dom';
 import { useAuthentication } from '../authentication/authenticationSlice';
 
 export const NAV_ITEMS = [

@@ -1,6 +1,4 @@
 import { useReducer } from 'react';
-import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 import {
 	FormControl,
 	FormErrorMessage,
@@ -9,11 +7,9 @@ import {
 	InputRightElement,
 	Button,
 	Heading,
-	Divider,
-	Text,
 	Image,
 } from '@chakra-ui/react';
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import { ViewIcon, ViewOffIcon, WarningTwoIcon } from '@chakra-ui/icons';
 import {
 	formWrapperStyle,
 	inputWrapperStyle,
@@ -22,41 +18,67 @@ import {
 	inputRightElementStyle,
 	inputRightElementIconStyle,
 	headingStyle,
+	apiErrorStyle,
+	apiErrorSymbolStyle,
+	overlayBoxStyle,
 } from '../../styles';
-import { checkLoginFormValidity } from './utils';
+import { checkUandILoginFormValidity } from './utils';
 import { loginFormReducer, initialFormState } from './reducers';
-import { loginBtnClicked } from '../authenticationSlice';
+import { API_URL } from '../../utils';
+import axios from 'axios';
+import Loader from 'react-loader-spinner';
 import logo from '../../../assets/logo.png';
 
-export const Login = () => {
+export const UandILogin = ({ setUserDetails, setStatus }) => {
 	const [formState, formDispatch] = useReducer(
 		loginFormReducer,
 		initialFormState,
 	);
 
-	const dispatch = useDispatch();
-
 	const onFocusClearError = (action) => {
 		formDispatch({ type: action.type, payload: '' });
 	};
 
-	const loginUser = async () => {
-		formDispatch({ type: 'RESET_ERRORS' });
-		if (checkLoginFormValidity(formState, formDispatch)) {
-			dispatch(
-				loginBtnClicked({
-					email: formState.email,
-					password: formState.password,
-				}),
-			);
+	const verifyUser = async () => {
+		try {
+			formDispatch({ type: 'RESET_ERRORS' });
+			if (checkUandILoginFormValidity(formState, formDispatch)) {
+				formDispatch({ type: 'SET_STATUS', payload: 'loading' });
+				const {
+					data: { response },
+				} = await axios({
+					method: 'POST',
+					url: `${API_URL}/social-profiles/uandi-signup-verification`,
+					headers: {
+						email: formState.email,
+						password: formState.password,
+					},
+				});
+				setUserDetails(response);
+				formDispatch({ type: 'SET_STATUS', payload: '' });
+				setStatus('PHASE1_SUCCESS');
+			}
+		} catch (error) {
+			console.log({ error });
+			const message = error?.response?.data?.message || 'Please try again!';
+			formDispatch({ type: 'SET_API_ERROR', payload: message });
 		}
 	};
 
 	return (
 		<>
 			<Box {...formWrapperStyle}>
-				<Heading {...headingStyle}>LOGIN</Heading>
+				<Heading {...headingStyle}>
+					<Image d='inline-block' src={logo} ht='2rem' w='2rem' mr='0.5rem' />
+					Login
+				</Heading>
 				<Box position='relative'>
+					{formState.status === 'loading' && (
+						<Box {...overlayBoxStyle}>
+							<Loader type='TailSpin' color='#ff3f6c' height={80} width={80} />
+						</Box>
+					)}
+
 					<Box>
 						<FormControl id='email' isRequired {...inputWrapperStyle}>
 							<Box w='100%'>
@@ -118,74 +140,20 @@ export const Login = () => {
 							variant='blockPrimary'
 							mt='2rem'
 							onClick={() => {
-								loginUser();
+								verifyUser();
 							}}>
 							Login
 						</Button>
-
-						<DividerWithTextOverlay />
-						<LoginWithUandIOption />
 					</Box>
+
+					{formState.status === 'failure' && (
+						<Box {...apiErrorStyle}>
+							<WarningTwoIcon {...apiErrorSymbolStyle} />
+							{formState.apiError}
+						</Box>
+					)}
 				</Box>
 			</Box>
-			<SignUpOption />
 		</>
-	);
-};
-
-export const DividerWithTextOverlay = () => {
-	return (
-		<Box position='relative'>
-			<Divider mt='2rem' borderColor='gray.500' />
-			<Text
-				fontSize='0.8rem'
-				color='gray.500'
-				position='absolute'
-				top='-1.25rem'
-				left='calc(50% - 1.6875rem)'
-				bg='white'
-				p='0.5rem 1rem'>
-				OR
-			</Text>
-		</Box>
-	);
-};
-
-export const LoginWithUandIOption = () => {
-	return (
-		<Box mt='2rem' w='100%' textAlign='center'>
-			<Link to='/u-and-i-signup'>
-				<Box
-					as='span'
-					w='100%'
-					color='pink.800'
-					fontWeight='500'
-					fontSize='0.9rem'>
-					<Image
-						d='inline-block'
-						src={logo}
-						ht='1.5rem'
-						w='1.5rem'
-						mr='0.25rem'
-					/>
-					Log in with U&I
-				</Box>
-			</Link>
-		</Box>
-	);
-};
-
-export const SignUpOption = () => {
-	return (
-		<Box {...formWrapperStyle}>
-			<Box textAlign='center'>
-				Don't have an account?
-				<Text as='button' color='pink.800' fontWeight='500'>
-					<Link className='link-text' to='/signup'>
-						Sign up
-					</Link>
-				</Text>
-			</Box>
-		</Box>
 	);
 };

@@ -7,7 +7,7 @@ import { SearchBar } from '../users/SearchBar';
 import { DesktopNav } from './DesktopNav';
 import { Logo } from './Logo';
 import { MobileNav } from './MobileNav';
-import { iconWrapperStyle, navWrapperStyle } from './navStyles';
+import { iconWrapperStyle, navWrapperStyle } from '../styles';
 
 export const Nav = () => {
 	const { isOpen, onToggle } = useDisclosure();

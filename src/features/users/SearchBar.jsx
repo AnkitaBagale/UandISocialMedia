@@ -13,13 +13,22 @@ import {
 	inputRightElementStyle,
 	inputRightElementWrapperStyle,
 	InputStyle,
-} from '../utils';
+} from '../styles';
 import { useUsers } from './usersSlice';
-import { searchUsers } from './searchUsers';
 import { UserHorizontalCard } from './UserHorizontalCard';
 
+const searchUsers = (users, searchedWord) => {
+	if (searchedWord) {
+		return users.filter(
+			({ userName, name }) =>
+				userName.includes(searchedWord) || name.includes(searchedWord),
+		);
+	}
+	return users;
+};
+
 export const SearchBar = () => {
-	const { onOpen, onToggle, isOpen } = useDisclosure();
+	const { onOpen, onClose, isOpen } = useDisclosure();
 	const inputSearchRef = useRef(null);
 	const { users } = useUsers();
 
@@ -47,13 +56,21 @@ export const SearchBar = () => {
 							}}
 						/>
 						<InputRightElement {...inputRightElementWrapperStyle}>
-							<Box as='button' onClick={onToggle} {...inputRightElementStyle}>
-								{isOpen ? (
+							{isOpen ? (
+								<Box
+									as='button'
+									onClick={() => {
+										onClose();
+										setSearchedWord('');
+									}}
+									{...inputRightElementStyle}>
 									<i className='fas fa-times'></i>
-								) : (
+								</Box>
+							) : (
+								<Box as='button' onClick={onOpen} {...inputRightElementStyle}>
 									<i className='fas fa-search'></i>
-								)}
-							</Box>
+								</Box>
+							)}
 						</InputRightElement>
 					</FormControl>
 				</PopoverTrigger>

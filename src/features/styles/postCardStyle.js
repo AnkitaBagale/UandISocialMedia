@@ -37,10 +37,6 @@ export const postActionButtonsWrapperStyle = {
 	variant: 'ghost',
 };
 
-export const iconButtonStyle = {
-	minW: '1.2rem',
-};
-
 export const userNameInCaptionStyle = {
 	fontWeight: '600',
 	pr: '0.25rem',

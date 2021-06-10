@@ -4,7 +4,7 @@ export const formWrapperStyle = {
 	margin: 'auto',
 	mt: '2rem',
 	mb: '2rem',
-	boxShadow: 'md',
+	boxShadow: '0px 0px 10px 4px rgb(0 0 0 / 5%)',
 	p: '2rem 3rem',
 };
 

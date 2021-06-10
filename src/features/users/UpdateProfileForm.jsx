@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react';
 import {
 	Modal,
 	ModalOverlay,
@@ -13,15 +14,7 @@ import {
 	FormLabel,
 	Textarea,
 } from '@chakra-ui/react';
-import { useRef, useState } from 'react';
-import {
-	btnStyles,
-	inputWrapperStyle,
-	labelStyle,
-	outlineSecondaryButtonStyle,
-	solidPrimaryButtonStyle,
-	InputStyle,
-} from '../utils';
+import { inputWrapperStyle, labelStyle, InputStyle } from '../styles';
 
 export const UpdateProfileForm = ({
 	userDetails: { bio, link, name, userName },
@@ -34,7 +27,7 @@ export const UpdateProfileForm = ({
 
 	return (
 		<>
-			<Button {...btnStyles} {...outlineSecondaryButtonStyle} onClick={onOpen}>
+			<Button variant='outlineSecondary' onClick={onOpen}>
 				Edit Profile
 			</Button>
 			<Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
@@ -104,8 +97,7 @@ export const UpdateProfileForm = ({
 							onClick={() =>
 								updateProfile(userName, inputBio, inputLink, onClose)
 							}
-							{...btnStyles}
-							{...solidPrimaryButtonStyle}>
+							variant='solidPrimary'>
 							Update
 						</Button>
 					</ModalFooter>

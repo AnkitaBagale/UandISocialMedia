@@ -1,8 +1,7 @@
-import { Avatar, Box, ButtonGroup, IconButton, Text } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { likeButtonClicked, userLikesClicked } from '../postSlice';
-
+import { Avatar, Box, ButtonGroup, IconButton, Text } from '@chakra-ui/react';
+import { likeButtonClicked, userLikesClicked } from './postSlice';
 import {
 	postCardUserInfoStyle,
 	postCardWrapperStyle,
@@ -10,9 +9,8 @@ import {
 	postCardContentStyle,
 	postCardFooterStyle,
 	postActionButtonsWrapperStyle,
-	iconButtonStyle,
 	userNameInCaptionStyle,
-} from './postCardStyle';
+} from '../styles';
 
 export const PostCard = ({ post }) => {
 	const getColorForIconButton = (criteria) =>
@@ -44,7 +42,7 @@ export const PostCard = ({ post }) => {
 					<Avatar
 						{...smallAvatarStyle}
 						name={post.userId.userName}
-						src='https://bit.ly/tioluwani-kolawole'
+						src='https://bit.ly/broken-link'
 					/>
 					<Link className='link-text' to={`/profile/${post.userId.userName}`}>
 						{post.userId.userName}
@@ -56,13 +54,13 @@ export const PostCard = ({ post }) => {
 						<IconButton
 							onClick={() => dispatch(likeButtonClicked({ postId: post._id }))}
 							color={getColorForIconButton(post.likedByViewer)}
-							{...iconButtonStyle}
+							variant='actionBtnIcon'
 							aria-label='Search database'
 							icon={<i className='fas fa-heart icon-btn'></i>}
 						/>
 						<IconButton
 							color='gray.500'
-							{...iconButtonStyle}
+							variant='actionBtnIcon'
 							aria-label='Search database'
 							icon={<i className='fas fa-share-alt icon-btn'></i>}
 						/>

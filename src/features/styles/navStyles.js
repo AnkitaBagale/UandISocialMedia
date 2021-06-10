@@ -51,16 +51,3 @@ export const avatarStyle = {
 		bg: 'pink.900',
 	},
 };
-
-export const iconNavItemStyle = {
-	as: 'span',
-	minW: '1.5rem',
-	color: 'gray.700',
-	height: '1.5rem',
-	_hover: {
-		color: 'pink.900',
-	},
-	_active: {
-		color: 'pink.900',
-	},
-};

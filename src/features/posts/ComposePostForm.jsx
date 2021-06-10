@@ -1,3 +1,5 @@
+import { useReducer, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import { WarningTwoIcon } from '@chakra-ui/icons';
 import {
 	Modal,
@@ -16,17 +18,14 @@ import {
 	Flex,
 	Textarea,
 } from '@chakra-ui/react';
-import { useReducer, useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import { iconNavItemStyle } from '../nav/navStyles';
-import { btnStyles, solidPrimaryButtonStyle } from '../utils';
+
 import {
 	errorSymbolStyle,
 	errorWrapperStyle,
 	InputStyle,
 	mdAvatarStyle,
-} from './composePostFormStyle';
-import { createPostBtnClicked } from '../posts/postSlice';
+} from '../styles';
+import { createPostBtnClicked } from './postSlice';
 import {
 	initialStateOfPostForm,
 	newPostFormReducer,
@@ -80,7 +79,7 @@ export const ComposePostForm = () => {
 		<>
 			<IconButton
 				onClick={onOpen}
-				{...iconNavItemStyle}
+				variant='iconBtn'
 				icon={<i className='fas fa-plus-circle icon-btn-nav-item'></i>}
 			/>
 
@@ -141,10 +140,7 @@ export const ComposePostForm = () => {
 					</ModalBody>
 
 					<ModalFooter>
-						<Button
-							onClick={postButtonClicked}
-							{...btnStyles}
-							{...solidPrimaryButtonStyle}>
+						<Button onClick={postButtonClicked} variant='solidPrimary'>
 							Post
 						</Button>
 					</ModalFooter>

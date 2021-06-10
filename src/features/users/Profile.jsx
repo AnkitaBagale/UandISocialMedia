@@ -1,20 +1,21 @@
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import { Avatar } from '@chakra-ui/avatar';
 import { Button, IconButton } from '@chakra-ui/button';
 import { HStack, VStack, Link, Text, Box, Flex } from '@chakra-ui/layout';
-import { API_URL, btnStyles, outlineSecondaryButtonStyle } from '../utils';
-import { countStyle } from './profileStyles';
-import { PostCard } from '../posts';
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { Tooltip } from '@chakra-ui/tooltip';
+
+import { API_URL } from '../utils';
+import { countStyle } from '../styles';
+import { PostCard } from '../posts/PostCard';
 import { usePostSelector } from '../posts/postSlice';
 import {
 	logoutUser,
 	useAuthentication,
 } from '../authentication/authenticationSlice';
 import { UpdateProfileForm } from './UpdateProfileForm';
-import axios from 'axios';
-import { Tooltip } from '@chakra-ui/tooltip';
-import { useDispatch } from 'react-redux';
 
 export const Profile = () => {
 	const [userDetails, setUserDetails] = useState(null);
@@ -41,6 +42,8 @@ export const Profile = () => {
 				console.log(error);
 			}
 		})();
+
+		return () => setUserDetails(null);
 	}, [userName, posts]);
 
 	const followBtnClicked = async (userName, setUserDetails) => {
@@ -108,9 +111,8 @@ export const Profile = () => {
 			</>
 		) : (
 			<Button
-				onClick={() => followBtnClicked(userName, setUserDetails)}
-				{...btnStyles}
-				{...outlineSecondaryButtonStyle}>
+				variant='outlineSecondary'
+				onClick={() => followBtnClicked(userName, setUserDetails)}>
 				{userDetails.followedByViewer ? 'Following' : 'Follow'}
 			</Button>
 		);
@@ -143,7 +145,7 @@ export const Profile = () => {
 
 							<HStack spacing='1.5rem' mb='1rem'>
 								<Text>
-									<Text {...countStyle}>{userDetails.count.posts}</Text>
+									<Text {...countStyle}>{postsDetails.length}</Text>
 									posts
 								</Text>
 								<Text>

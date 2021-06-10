@@ -5,13 +5,14 @@ import { store } from './app/store';
 import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
-import { colors, fonts } from './database';
+import { colors, fonts, components } from './database';
 import { ScrollToTop } from './ScrollToTop';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 const theme = extendTheme({
 	colors,
 	fonts,
+	components,
 });
 
 ReactDOM.render(

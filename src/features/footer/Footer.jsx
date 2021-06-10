@@ -5,8 +5,7 @@ import {
 	buttonGroupStyle,
 	copyRightTextStyle,
 	footerWrapperStyle,
-	iconStyle,
-} from './footerStyles';
+} from '../styles';
 import { useAuthentication } from '../authentication/authenticationSlice';
 
 export const Footer = () => {
@@ -18,20 +17,19 @@ export const Footer = () => {
 			<>
 				<Box textAlign='center' as='footer' {...footerWrapperStyle}>
 					<Text fontSize='1rem' letterSpacing='0.5px'>
-						Made with{' '}
-						<Text as='span' color='pink.800'>
+						Made with
+						<Text px='0.25rem' as='span' color='pink.800'>
 							&lt;/&gt;
-						</Text>{' '}
+						</Text>
 						by Ankita Bagale
 					</Text>
 					<ButtonGroup {...buttonGroupStyle}>
 						{socialShareIcons.map(({ className, link, name }) => (
 							<IconButton
-								as='a'
 								key={className}
 								href={link}
 								aria-label={name}
-								{...iconStyle}
+								variant='footerExternalLink'
 								icon={<i className={className}></i>}
 							/>
 						))}

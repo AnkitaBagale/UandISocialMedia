@@ -2,7 +2,7 @@ import { Box } from '@chakra-ui/layout';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { PostCard } from './PostCard';
-import { LikesContainer } from './PostCard/LikesContainer';
+import { LikesContainer } from './LikesContainer';
 import { loadPosts, usePostSelector } from './postSlice';
 
 // const data = [

@@ -10,8 +10,8 @@ import {
 	ModalOverlay,
 } from '@chakra-ui/modal';
 import { useDispatch } from 'react-redux';
-import { UserHorizontalCard } from '../../users/UserHorizontalCard';
-import { closeBtnInLikesContainerClicked, usePostSelector } from '../postSlice';
+import { UserHorizontalCard } from '../users/UserHorizontalCard';
+import { closeBtnInLikesContainerClicked, usePostSelector } from './postSlice';
 
 export const LikesContainer = () => {
 	const { isOpen, onClose } = useDisclosure({ isOpen: true });

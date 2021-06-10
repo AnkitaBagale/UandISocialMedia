@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Box } from '@chakra-ui/react';
-import { logoTitleStyle, AndSymbolStyle, logoTaglineStyle } from './navStyles';
+import { logoTitleStyle, AndSymbolStyle, logoTaglineStyle } from '../styles';
 
 export const Logo = () => {
 	return (

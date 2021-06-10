@@ -1,10 +1,10 @@
+import { Link } from 'react-router-dom';
 import { Avatar } from '@chakra-ui/avatar';
 import { IconButton } from '@chakra-ui/button';
 import { Box, HStack } from '@chakra-ui/layout';
-import { Link } from 'react-router-dom';
 import { useAuthentication } from '../authentication/authenticationSlice';
-import { ComposePostForm } from '../newPost/ComposePostForm';
-import { avatarWrapperStyle, avatarStyle, iconNavItemStyle } from './navStyles';
+import { ComposePostForm } from '../posts/ComposePostForm';
+import { avatarWrapperStyle, avatarStyle } from '../styles';
 
 export const DesktopNav = () => {
 	const {
@@ -20,14 +20,14 @@ export const DesktopNav = () => {
 				alignItems='center'>
 				<Link to='/'>
 					<IconButton
-						{...iconNavItemStyle}
+						variant='iconBtn'
 						icon={<i className='nav-icon fas fa-home icon-btn-nav-item'></i>}
 					/>
 				</Link>
 
 				<Link to='/notification'>
 					<IconButton
-						{...iconNavItemStyle}
+						variant='iconBtn'
 						icon={<i className='far fa-bell icon-btn-nav-item'></i>}
 					/>
 				</Link>

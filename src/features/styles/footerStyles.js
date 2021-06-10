@@ -1,16 +1,3 @@
-export const iconStyle = {
-	target: '_blank',
-	fontSize: '1.5rem',
-	_hover: {
-		color: 'pink.900',
-		bg: 'transparent',
-	},
-	_active: {
-		color: 'pink.900',
-		bg: 'transparent',
-	},
-};
-
 export const footerWrapperStyle = {
 	role: 'contentinfo',
 	mx: 'auto',
@@ -22,9 +9,7 @@ export const footerWrapperStyle = {
 
 export const buttonGroupStyle = {
 	variant: 'ghost',
-	color: 'gray.600',
-	mt: '0.5rem',
-	mb: '0.5rem',
+	spacing: '1rem',
 };
 
 export const copyRightTextStyle = {

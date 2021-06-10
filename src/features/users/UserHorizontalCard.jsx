@@ -1,7 +1,7 @@
 import { Avatar } from '@chakra-ui/avatar';
 import { Box, Flex, Text } from '@chakra-ui/layout';
 import { Link } from 'react-router-dom';
-import { mdAvatarStyle } from '../newPost/composePostFormStyle';
+import { mdAvatarStyle } from '../styles';
 
 export const UserHorizontalCard = ({ userDetails: { userName, name } }) => {
 	return (
