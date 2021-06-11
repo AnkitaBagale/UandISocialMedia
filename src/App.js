@@ -31,16 +31,19 @@ function App() {
 		authentication: { token },
 	} = useAuthentication();
 	const dispatch = useDispatch();
-	const { status, sharedPost } = usePostSelector();
+	const { sharedPost } = usePostSelector();
 	const sharedQuery = new URLSearchParams(useLocation().search);
+	const sharedPostTitle = sharedQuery.get('title');
 
 	if (token) {
 		setAuthorizationHeader(token);
 	}
 
 	useEffect(() => {
-		dispatch(storeSharedPost({ title: sharedQuery.get('title') }));
-	}, [dispatch]);
+		if (sharedPostTitle) {
+			dispatch(storeSharedPost({ title: sharedPostTitle }));
+		}
+	}, [dispatch, sharedPostTitle]);
 
 	useEffect(() => {
 		setAxiosErrorHandler(dispatch);

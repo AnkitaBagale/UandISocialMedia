@@ -11,6 +11,7 @@ import {
 	postActionButtonsWrapperStyle,
 	userNameInCaptionStyle,
 } from '../styles';
+import Linkify from 'react-linkify';
 
 export const PostCard = ({ post, setPosts }) => {
 	const getColorForIconButton = (criteria) =>
@@ -71,7 +72,14 @@ export const PostCard = ({ post, setPosts }) => {
 						{post?.userId?.userName}
 					</Link>
 				</Box>
-				<Text {...postCardContentStyle}>{post?.content}</Text>
+				<Text {...postCardContentStyle}>
+					<Linkify
+						properties={{
+							target: '_blank',
+						}}>
+						{post?.content}
+					</Linkify>
+				</Text>
 				<Box {...postCardFooterStyle}>
 					<ButtonGroup {...postActionButtonsWrapperStyle}>
 						<IconButton

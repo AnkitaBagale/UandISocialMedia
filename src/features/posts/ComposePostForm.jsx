@@ -88,17 +88,20 @@ export const ComposePostForm = () => {
 	};
 
 	const navigate = useNavigate();
+
 	useEffect(() => {
 		if (token && sharedPost) {
-			onOpen();
-			formDispatch({ type: SET_CONTENT, payload: { content: sharedPost } });
-			formDispatch({
-				type: SET_CAPTION,
-				payload: { caption: 'Great Learning Experience!' },
-			});
-			dispatch(storeSharedPost({ title: null }));
+			(() => {
+				onOpen();
+				formDispatch({ type: SET_CONTENT, payload: { content: sharedPost } });
+				formDispatch({
+					type: SET_CAPTION,
+					payload: { caption: 'Great Learning Experience!' },
+				});
+				dispatch(storeSharedPost({ title: null }));
+			})();
 		}
-	}, [token, sharedPost]);
+	}, [token, sharedPost, SET_CAPTION, SET_CONTENT, dispatch, onOpen]);
 
 	const clearPostForm = () => {
 		formDispatch({

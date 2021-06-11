@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Avatar, Box, ButtonGroup, IconButton, Text } from '@chakra-ui/react';
 import { likeButtonClicked, userLikesClicked } from './postSlice';
+import Linkify from 'react-linkify';
 import {
 	postCardUserInfoStyle,
 	postCardWrapperStyle,
@@ -35,6 +36,7 @@ export const PostCard = ({ post }) => {
 	};
 
 	const dispatch = useDispatch();
+
 	return (
 		<>
 			<Box {...postCardWrapperStyle}>
@@ -48,7 +50,16 @@ export const PostCard = ({ post }) => {
 						{post?.userId?.userName}
 					</Link>
 				</Box>
-				<Text {...postCardContentStyle}>{post?.content}</Text>
+				<Text {...postCardContentStyle}>
+					<p>
+						<Linkify
+							properties={{
+								target: '_blank',
+							}}>
+							{post?.content}
+						</Linkify>
+					</p>
+				</Text>
 				<Box {...postCardFooterStyle}>
 					<ButtonGroup {...postActionButtonsWrapperStyle}>
 						<IconButton
@@ -72,7 +83,7 @@ export const PostCard = ({ post }) => {
 							className='link-text'>
 							<Text {...userNameInCaptionStyle}>{post?.userId?.userName}</Text>
 						</Link>
-						{post?.caption}
+						<Linkify properties={{ target: '_blank' }}>{post?.caption}</Linkify>
 					</Box>
 
 					<Box pt='0.5rem' color='gray.500'>
