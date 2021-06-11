@@ -4,6 +4,8 @@ export const initialFormState = {
 	showPassword: false,
 	emailError: '',
 	passwordError: '',
+	status: '',
+	apiError: '',
 };
 
 export const loginFormReducer = (formState, action) => {
@@ -24,8 +26,14 @@ export const loginFormReducer = (formState, action) => {
 		case 'SET_PASSWORD_ERROR': {
 			return { ...formState, passwordError: action.payload };
 		}
+		case 'SET_STATUS': {
+			return { ...formState, status: action.payload };
+		}
+		case 'SET_API_ERROR': {
+			return { ...formState, apiError: action.payload, status: 'failure' };
+		}
 		case 'RESET_ERRORS': {
-			return { ...formState, emailError: '', passwordError: '' };
+			return { ...formState, emailError: '', passwordError: '', apiError: '' };
 		}
 
 		default:

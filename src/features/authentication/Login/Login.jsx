@@ -1,6 +1,7 @@
 import { useReducer } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Loader from 'react-loader-spinner';
 import {
 	FormControl,
 	FormErrorMessage,
@@ -13,7 +14,7 @@ import {
 	Text,
 	Image,
 } from '@chakra-ui/react';
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import { ViewIcon, ViewOffIcon, WarningTwoIcon } from '@chakra-ui/icons';
 import {
 	formWrapperStyle,
 	inputWrapperStyle,
@@ -22,6 +23,9 @@ import {
 	inputRightElementStyle,
 	inputRightElementIconStyle,
 	headingStyle,
+	apiErrorStyle,
+	apiErrorSymbolStyle,
+	overlayBoxStyle,
 } from '../../styles';
 import { checkLoginFormValidity } from './utils';
 import { loginFormReducer, initialFormState } from './reducers';
@@ -42,13 +46,22 @@ export const Login = () => {
 
 	const loginUser = async () => {
 		formDispatch({ type: 'RESET_ERRORS' });
+		formDispatch({ type: 'SET_STATUS', payload: 'loading' });
+
 		if (checkLoginFormValidity(formState, formDispatch)) {
-			dispatch(
+			const dispatchResponse = await dispatch(
 				loginBtnClicked({
 					email: formState.email,
 					password: formState.password,
 				}),
 			);
+			console.log(dispatchResponse);
+			if (dispatchResponse.meta.requestStatus === 'rejected') {
+				formDispatch({
+					type: 'SET_API_ERROR',
+					payload: dispatchResponse.payload,
+				});
+			}
 		}
 	};
 
@@ -58,6 +71,16 @@ export const Login = () => {
 				<Heading {...headingStyle}>LOGIN</Heading>
 				<Box position='relative'>
 					<Box>
+						{formState.status === 'loading' && (
+							<Box {...overlayBoxStyle}>
+								<Loader
+									type='TailSpin'
+									color='#ff3f6c'
+									height={80}
+									width={80}
+								/>
+							</Box>
+						)}
 						<FormControl id='email' isRequired {...inputWrapperStyle}>
 							<Box w='100%'>
 								<Input
@@ -66,10 +89,16 @@ export const Login = () => {
 									placeholder='Enter your email here'
 									value={formState.email}
 									onChange={(e) =>
-										formDispatch({ type: 'SET_EMAIL', payload: e.target.value })
+										formDispatch({
+											type: 'SET_EMAIL',
+											payload: e.target.value,
+										})
 									}
 									onFocus={() =>
-										onFocusClearError({ type: 'SET_EMAIL_ERROR', payload: '' })
+										onFocusClearError({
+											type: 'SET_EMAIL_ERROR',
+											payload: '',
+										})
 									}
 								/>
 							</Box>
@@ -122,6 +151,12 @@ export const Login = () => {
 							}}>
 							Login
 						</Button>
+						{formState.status === 'failure' && (
+							<Box {...apiErrorStyle}>
+								<WarningTwoIcon {...apiErrorSymbolStyle} />
+								{formState.apiError}
+							</Box>
+						)}
 
 						<DividerWithTextOverlay />
 						<LoginWithUandIOption />

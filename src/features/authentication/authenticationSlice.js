@@ -7,15 +7,20 @@ import { getLocalStorage, setLocalStorage } from './utils/setLocalStorage';
 
 export const loginBtnClicked = createAsyncThunk(
 	'authenticate/loginBtnClicked',
-	async ({ email, password }) => {
-		const {
-			data: { response },
-		} = await axios({
-			method: 'POST',
-			url: `${API_URL}/social-profiles/login`,
-			headers: { email, password },
-		});
-		return { userDetails: response };
+	async ({ email, password }, { rejectWithValue }) => {
+		try {
+			const {
+				data: { response },
+			} = await axios({
+				method: 'POST',
+				url: `${API_URL}/social-profiles/login`,
+				headers: { email, password },
+			});
+			return { userDetails: response };
+		} catch (error) {
+			const message = error.response.data.message;
+			return rejectWithValue(message);
+		}
 	},
 );
 
