@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Avatar, Box, ButtonGroup, IconButton, Text } from '@chakra-ui/react';
-import { likeButtonClicked, userLikesClicked } from './postSlice';
+import { likeButtonClicked, userLikesClicked } from '../posts/postSlice';
 import {
 	postCardUserInfoStyle,
 	postCardWrapperStyle,
@@ -12,7 +12,7 @@ import {
 	userNameInCaptionStyle,
 } from '../styles';
 
-export const PostCard = ({ post }) => {
+export const PostCard = ({ post, setPosts }) => {
 	const getColorForIconButton = (criteria) =>
 		criteria ? 'pink.800' : 'gray.500';
 
@@ -35,6 +35,29 @@ export const PostCard = ({ post }) => {
 	};
 
 	const dispatch = useDispatch();
+
+	const likeBtnClickedInUserProfile = async () => {
+		const dispatchResponse = await dispatch(
+			likeButtonClicked({ postId: post._id }),
+		);
+
+		if (dispatchResponse.meta.requestStatus === 'fulfilled') {
+			setPosts((posts) =>
+				posts.map((userPost) => {
+					if (userPost._id !== post._id) {
+						return userPost;
+					}
+					return {
+						...userPost,
+						likedByViewer: !userPost.likedByViewer,
+						totalLikes: userPost.likedByViewer
+							? userPost.totalLikes - 1
+							: userPost.totalLikes + 1,
+					};
+				}),
+			);
+		}
+	};
 	return (
 		<>
 			<Box {...postCardWrapperStyle}>
@@ -52,7 +75,7 @@ export const PostCard = ({ post }) => {
 				<Box {...postCardFooterStyle}>
 					<ButtonGroup {...postActionButtonsWrapperStyle}>
 						<IconButton
-							onClick={() => dispatch(likeButtonClicked({ postId: post._id }))}
+							onClick={likeBtnClickedInUserProfile}
 							color={getColorForIconButton(post?.likedByViewer)}
 							variant='actionBtnIcon'
 							aria-label='Search database'

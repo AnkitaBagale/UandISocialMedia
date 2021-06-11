@@ -2,12 +2,7 @@ import { FormControl } from '@chakra-ui/form-control';
 import { useDisclosure } from '@chakra-ui/hooks';
 import { Input, InputRightElement } from '@chakra-ui/input';
 import { Box, Text } from '@chakra-ui/layout';
-import {
-	Popover,
-	PopoverArrow,
-	PopoverContent,
-	PopoverTrigger,
-} from '@chakra-ui/popover';
+import { Popover, PopoverContent, PopoverTrigger } from '@chakra-ui/popover';
 import { useRef, useState } from 'react';
 import {
 	inputRightElementStyle,
@@ -36,7 +31,7 @@ export const SearchBar = () => {
 
 	const usersToDisplay = searchUsers(users, searchedWord);
 	return (
-		<Box ml='1rem'>
+		<Box pl='1rem'>
 			<Popover
 				flip={true}
 				initialFocusRef={inputSearchRef}
@@ -75,13 +70,19 @@ export const SearchBar = () => {
 					</FormControl>
 				</PopoverTrigger>
 				<PopoverContent maxH='80vh' overflowY='auto' pr='1rem' pl='1rem'>
-					<PopoverArrow />
 					<Box>
 						{usersToDisplay.length === 0 ? (
 							<Text color='gray.500'>No user found!</Text>
 						) : (
 							usersToDisplay.map((user) => (
-								<UserHorizontalCard key={user._id} userDetails={user} />
+								<Box
+									w='100%'
+									key={user._id}
+									as='button'
+									textAlign='left'
+									onClick={onClose}>
+									<UserHorizontalCard userDetails={user} />
+								</Box>
 							))
 						)}
 					</Box>

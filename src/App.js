@@ -17,13 +17,17 @@ import {
 	SignUp,
 } from './features';
 import './App.css';
+import { Box } from '@chakra-ui/layout';
+
 import { UandISignUp } from './features/authentication/UandISignUp/UandISignUp';
+import { loadPosts, usePostSelector } from './features/posts/postSlice';
 
 function App() {
 	const {
 		authentication: { token },
 	} = useAuthentication();
 	const dispatch = useDispatch();
+	const { status } = usePostSelector();
 
 	if (token) {
 		setAuthorizationHeader(token);
@@ -39,10 +43,16 @@ function App() {
 		}
 	}, [dispatch, token]);
 
+	useEffect(() => {
+		if (status === 'idle' && token) {
+			dispatch(loadPosts());
+		}
+	}, [status, dispatch, token]);
+
 	return (
-		<div>
+		<Box>
 			<Nav />
-			<div className='App'>
+			<Box padding='2rem 1.5rem' minHeight='70vh'>
 				<Routes>
 					<PrivateRoute path='/' element={<Posts />} />
 					<PrivateRoute path='/profile/:userName' element={<Profile />} />
@@ -51,9 +61,9 @@ function App() {
 					<PublicRoute path='/signup' element={<SignUp />} />
 					<PublicRoute path='/u-and-i-signup' element={<UandISignUp />} />
 				</Routes>
-			</div>
+			</Box>
 			<Footer />
-		</div>
+		</Box>
 	);
 }
 

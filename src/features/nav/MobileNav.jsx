@@ -61,9 +61,6 @@ export const MobileNav = ({ isOpen, onToggle }) => {
 					<NavLink to='/' activeClassName='primary-text-color' end>
 						Home
 					</NavLink>
-					<NavLink to='/' activeClassName='primary-text-color' end>
-						Search
-					</NavLink>
 					<NavLink to='/notification' activeClassName='primary-text-color'>
 						Notification
 					</NavLink>

@@ -9,8 +9,7 @@ import { Tooltip } from '@chakra-ui/tooltip';
 
 import { API_URL } from '../utils';
 import { countStyle } from '../styles';
-import { PostCard } from '../posts/PostCard';
-import { usePostSelector } from '../posts/postSlice';
+import { PostCard } from './PostCard';
 import {
 	logoutUser,
 	useAuthentication,
@@ -18,6 +17,7 @@ import {
 import { UpdateProfileForm } from './UpdateProfileForm';
 import { FollowersContainer } from './FollowersContainer';
 import { FollowingContainer } from './FollowingContainer';
+import { followBtnClickedByViewer } from '../posts/postSlice';
 
 export const Profile = () => {
 	const [userDetails, setUserDetails] = useState(null);
@@ -27,7 +27,6 @@ export const Profile = () => {
 		authentication: { userName: viewerUserName },
 	} = useAuthentication();
 	const dispatch = useDispatch();
-	const { posts } = usePostSelector();
 	useEffect(() => {
 		(async () => {
 			try {
@@ -35,18 +34,24 @@ export const Profile = () => {
 					data: { response },
 				} = await axios.get(`${API_URL}/social-profiles/${userName}`);
 				setUserDetails(response);
-				const postsResponse = posts.filter(
-					(post) => post.userId.userName === userName,
-				);
+			} catch (error) {
+				console.log(error);
+			}
+		})();
 
-				setPosts(postsResponse);
+		(async () => {
+			try {
+				const {
+					data: { response },
+				} = await axios.get(`${API_URL}/posts/${userName}`);
+				setPosts(response);
 			} catch (error) {
 				console.log(error);
 			}
 		})();
 
 		return () => setUserDetails(null);
-	}, [userName, posts]);
+	}, [userName]);
 
 	const followBtnClicked = async (userName, setUserDetails) => {
 		try {
@@ -65,6 +70,13 @@ export const Profile = () => {
 							: userDetails.count.followers - 1,
 					},
 				}));
+
+				dispatch(
+					followBtnClickedByViewer({
+						posts: postsDetails,
+						followedByViewer: isAdded,
+					}),
+				);
 			} else {
 				throw new Error('failed!');
 			}
@@ -180,7 +192,7 @@ export const Profile = () => {
 					</Flex>
 					<Box>
 						{postsDetails.map((post) => (
-							<PostCard key={post._id} post={post} />
+							<PostCard key={post._id} post={post} setPosts={setPosts} />
 						))}
 					</Box>
 				</Box>

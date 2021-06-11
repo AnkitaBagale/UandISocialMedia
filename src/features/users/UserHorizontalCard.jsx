@@ -6,7 +6,7 @@ import { mdAvatarStyle } from '../styles';
 export const UserHorizontalCard = ({ userDetails: { userName, name } }) => {
 	return (
 		<Link to={`/profile/${userName}`}>
-			<Flex mt='0.8rem' mb='0.8rem' alignItems='center'>
+			<Flex mt='0.4rem' mb='0.4rem' alignItems='center'>
 				<Avatar
 					{...mdAvatarStyle}
 					name={userName}

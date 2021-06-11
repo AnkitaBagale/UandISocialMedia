@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap');
-.App {
-	padding: 2rem 1.5rem;
-	min-height: 70vh;
+
+#root {
+	overflow-x: hidden;
 }
 
 .icon-btn {
