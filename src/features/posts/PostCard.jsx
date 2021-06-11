@@ -50,15 +50,13 @@ export const PostCard = ({ post }) => {
 						{post?.userId?.userName}
 					</Link>
 				</Box>
-				<Text {...postCardContentStyle}>
-					<p>
-						<Linkify
-							properties={{
-								target: '_blank',
-							}}>
-							{post?.content}
-						</Linkify>
-					</p>
+				<Text {...postCardContentStyle} className='post-content'>
+					<Linkify
+						properties={{
+							target: '_blank',
+						}}>
+						{post?.content}
+					</Linkify>
 				</Text>
 				<Box {...postCardFooterStyle}>
 					<ButtonGroup {...postActionButtonsWrapperStyle}>

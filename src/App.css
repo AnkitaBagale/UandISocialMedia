@@ -23,3 +23,11 @@
 .link-text:hover {
 	text-decoration: underline;
 }
+
+.post-content a {
+	color: #2b6cb0;
+}
+
+.post-content a:hover {
+	text-decoration: underline;
+}

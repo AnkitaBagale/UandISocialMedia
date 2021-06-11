@@ -72,7 +72,7 @@ export const PostCard = ({ post, setPosts }) => {
 						{post?.userId?.userName}
 					</Link>
 				</Box>
-				<Text {...postCardContentStyle}>
+				<Text {...postCardContentStyle} className='post-content'>
 					<Linkify
 						properties={{
 							target: '_blank',
