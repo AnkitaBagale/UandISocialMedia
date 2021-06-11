@@ -16,6 +16,8 @@ import {
 	useAuthentication,
 } from '../authentication/authenticationSlice';
 import { UpdateProfileForm } from './UpdateProfileForm';
+import { FollowersContainer } from './FollowersContainer';
+import { FollowingContainer } from './FollowingContainer';
 
 export const Profile = () => {
 	const [userDetails, setUserDetails] = useState(null);
@@ -36,7 +38,7 @@ export const Profile = () => {
 				const postsResponse = posts.filter(
 					(post) => post.userId.userName === userName,
 				);
-				console.log({ postsResponse });
+
 				setPosts(postsResponse);
 			} catch (error) {
 				console.log(error);
@@ -48,18 +50,19 @@ export const Profile = () => {
 
 	const followBtnClicked = async (userName, setUserDetails) => {
 		try {
-			const { status } = await axios.post(
-				`${API_URL}/social-profiles/${userName}/followers`,
-			);
+			const {
+				status,
+				data: { isAdded },
+			} = await axios.post(`${API_URL}/social-profiles/${userName}/followers`);
 			if (status === 200) {
 				setUserDetails((userDetails) => ({
 					...userDetails,
-					followedByViewer: !userDetails.followedByViewer,
+					followedByViewer: isAdded,
 					count: {
 						...userDetails.count,
-						followers: userDetails.followedByViewer
-							? userDetails.count.followers - 1
-							: userDetails.count.followers + 1,
+						followers: isAdded
+							? userDetails.count.followers + 1
+							: userDetails.count.followers - 1,
 					},
 				}));
 			} else {
@@ -101,8 +104,9 @@ export const Profile = () => {
 					userDetails={userDetails}
 					updateProfile={updateProfile}
 				/>
-				<Tooltip hasArrow label='Logout' bg='red.600'>
+				<Tooltip hasArrow label='Logout' bg='pink.900'>
 					<IconButton
+						variant='iconBtn'
 						onClick={() => dispatch(logoutUser())}
 						aria-label='logout'
 						icon={<i className='fas fa-sign-out-alt icon-btn'></i>}
@@ -150,11 +154,19 @@ export const Profile = () => {
 								</Text>
 								<Text>
 									<Text {...countStyle}>{userDetails.count.followers}</Text>
-									followers
+									<FollowersContainer
+										userName={userName}
+										followersCount={userDetails.count.followers}
+										setUserDetails={setUserDetails}
+									/>
 								</Text>
 								<Text>
 									<Text {...countStyle}>{userDetails.count.following}</Text>
-									following
+									<FollowingContainer
+										userName={userName}
+										followingCount={userDetails.count.following}
+										setUserDetails={setUserDetails}
+									/>
 								</Text>
 							</HStack>
 							<VStack alignItems='left' spacing='0.25rem'>

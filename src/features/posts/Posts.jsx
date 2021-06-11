@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { PostCard } from './PostCard';
 import { LikesContainer } from './LikesContainer';
 import { loadPosts, usePostSelector } from './postSlice';
+import { useAuthentication } from '../authentication/authenticationSlice';
 
 // const data = [
 // 	{
@@ -69,15 +70,17 @@ import { loadPosts, usePostSelector } from './postSlice';
 // ];
 
 export const Posts = () => {
-	const { posts, status } = usePostSelector();
-	const { showLikesContainer } = usePostSelector();
+	const { posts, status, showLikesContainer } = usePostSelector();
+	const {
+		authentication: { token },
+	} = useAuthentication();
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		if (status === 'idle') {
+		if (status === 'idle' && token) {
 			dispatch(loadPosts());
 		}
-	}, [status, dispatch]);
+	}, [status, dispatch, token]);
 	return (
 		<>
 			<Box maxW='40rem' margin='auto'>
