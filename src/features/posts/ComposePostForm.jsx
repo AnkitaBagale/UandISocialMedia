@@ -1,4 +1,4 @@
-import { useReducer, useRef } from 'react';
+import { useEffect, useReducer, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { WarningTwoIcon } from '@chakra-ui/icons';
 import {
@@ -25,13 +25,18 @@ import {
 	InputStyle,
 	mdAvatarStyle,
 } from '../styles';
-import { createPostBtnClicked } from './postSlice';
+import {
+	createPostBtnClicked,
+	storeSharedPost,
+	usePostSelector,
+} from './postSlice';
 import {
 	initialStateOfPostForm,
 	newPostFormReducer,
 	ACTIONS,
 } from './reducer/newPostFormReducer';
 import { useAuthentication } from '../authentication/authenticationSlice';
+import { useNavigate } from 'react-router';
 
 export const ComposePostForm = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
@@ -42,8 +47,10 @@ export const ComposePostForm = () => {
 		initialStateOfPostForm,
 	);
 	const {
-		authentication: { userName },
+		authentication: { userName, token },
 	} = useAuthentication();
+
+	const { sharedPost } = usePostSelector();
 
 	const {
 		SET_CAPTION,
@@ -53,7 +60,7 @@ export const ComposePostForm = () => {
 		CLEAR_FORM,
 	} = ACTIONS;
 
-	const postButtonClicked = () => {
+	const postButtonClicked = async () => {
 		formDispatch({
 			type: CLEAR_ERRORS,
 		});
@@ -67,12 +74,38 @@ export const ComposePostForm = () => {
 				caption: formState.caption,
 				content: formState.content,
 			};
-			dispatch(createPostBtnClicked({ post: newPostDetails }));
-			formDispatch({
-				type: CLEAR_FORM,
-			});
-			onClose();
+			const { meta } = await dispatch(
+				createPostBtnClicked({ post: newPostDetails }),
+			);
+			if (meta.requestStatus === 'fulfilled') {
+				formDispatch({
+					type: CLEAR_FORM,
+				});
+				onClose();
+				navigate('/');
+			}
 		}
+	};
+
+	const navigate = useNavigate();
+	useEffect(() => {
+		if (token && sharedPost) {
+			onOpen();
+			formDispatch({ type: SET_CONTENT, payload: { content: sharedPost } });
+			formDispatch({
+				type: SET_CAPTION,
+				payload: { caption: 'Great Learning Experience!' },
+			});
+			dispatch(storeSharedPost({ title: null }));
+		}
+	}, [token, sharedPost]);
+
+	const clearPostForm = () => {
+		formDispatch({
+			type: CLEAR_FORM,
+		});
+		onClose();
+		navigate('/');
 	};
 
 	return (
@@ -86,7 +119,12 @@ export const ComposePostForm = () => {
 			<Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
 				<ModalContent>
-					<ModalCloseButton top='0.25rem' left='1rem' size='lg' />
+					<ModalCloseButton
+						top='0.25rem'
+						left='1rem'
+						size='lg'
+						onClick={clearPostForm}
+					/>
 					<ModalBody
 						pb={0}
 						mt='3rem'

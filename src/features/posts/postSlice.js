@@ -45,6 +45,7 @@ export const postSlice = createSlice({
 	name: 'posts',
 	initialState: {
 		posts: [],
+		sharedPost: null,
 		status: 'idle',
 		usersWhoLikedPost: [],
 		showLikesContainer: false,
@@ -53,6 +54,9 @@ export const postSlice = createSlice({
 		closeBtnInLikesContainerClicked: (state, action) => {
 			state.showLikesContainer = false;
 			state.usersWhoLikedPost = [];
+		},
+		storeSharedPost: (state, action) => {
+			state.sharedPost = action.payload.title;
 		},
 		followBtnClickedByViewer: (state, action) => {
 			if (action.payload.followedByViewer) {
@@ -106,6 +110,9 @@ export const postSlice = createSlice({
 });
 
 export default postSlice.reducer;
-export const { closeBtnInLikesContainerClicked, followBtnClickedByViewer } =
-	postSlice.actions;
+export const {
+	closeBtnInLikesContainerClicked,
+	followBtnClickedByViewer,
+	storeSharedPost,
+} = postSlice.actions;
 export const usePostSelector = () => useSelector((state) => state.posts);
