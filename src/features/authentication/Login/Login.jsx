@@ -46,16 +46,15 @@ export const Login = () => {
 
 	const loginUser = async () => {
 		formDispatch({ type: 'RESET_ERRORS' });
-		formDispatch({ type: 'SET_STATUS', payload: 'loading' });
-
 		if (checkLoginFormValidity(formState, formDispatch)) {
+			formDispatch({ type: 'SET_STATUS', payload: 'loading' });
 			const dispatchResponse = await dispatch(
 				loginBtnClicked({
 					email: formState.email,
 					password: formState.password,
 				}),
 			);
-			console.log(dispatchResponse);
+
 			if (dispatchResponse.meta.requestStatus === 'rejected') {
 				formDispatch({
 					type: 'SET_API_ERROR',
@@ -81,7 +80,11 @@ export const Login = () => {
 								/>
 							</Box>
 						)}
-						<FormControl id='email' isRequired {...inputWrapperStyle}>
+						<FormControl
+							id='email'
+							isRequired
+							{...inputWrapperStyle}
+							isInvalid={!!formState.emailError}>
 							<Box w='100%'>
 								<Input
 									type='email'
@@ -101,6 +104,7 @@ export const Login = () => {
 										})
 									}
 								/>
+								<FormErrorMessage>{formState.emailError}</FormErrorMessage>
 							</Box>
 						</FormControl>
 
