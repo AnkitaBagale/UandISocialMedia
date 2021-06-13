@@ -22,7 +22,7 @@ export const LikesContainer = () => {
 		<>
 			<Modal isOpen={isOpen} onClose={onClose} scrollBehavior='inside'>
 				<ModalOverlay />
-				<ModalContent>
+				<ModalContent mx='1rem'>
 					<ModalHeader textAlign='center'>Likes</ModalHeader>
 					<ModalCloseButton
 						top='0.75rem'

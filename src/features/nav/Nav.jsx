@@ -16,7 +16,7 @@ export const Nav = () => {
 	} = useAuthentication();
 	return (
 		token && (
-			<Box position='sticky' top='0' zIndex={3}>
+			<Box position='fixed' width='100%' top='0' zIndex={3}>
 				<Flex {...navWrapperStyle}>
 					<Flex alignItems='center'>
 						<Flex {...iconWrapperStyle}>

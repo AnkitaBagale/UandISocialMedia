@@ -32,7 +32,7 @@ export const UpdateProfileForm = ({
 			</Button>
 			<Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
-				<ModalContent>
+				<ModalContent mx='1rem'>
 					<ModalCloseButton top='0.25rem' left='1rem' size='lg' />
 					<ModalBody
 						pb={0}

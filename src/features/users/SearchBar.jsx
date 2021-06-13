@@ -14,10 +14,15 @@ import { UserHorizontalCard } from './UserHorizontalCard';
 
 const searchUsers = (users, searchedWord) => {
 	if (searchedWord) {
-		return users.filter(
-			({ userName, name }) =>
-				userName.includes(searchedWord) || name.includes(searchedWord),
-		);
+		return users.filter(({ userName, name }) => {
+			const userNameLowerCase = userName.toLowerCase();
+			const nameLowerCase = name.toLowerCase();
+			const searchedWordLowerCase = searchedWord.toLowerCase();
+			return (
+				userNameLowerCase.includes(searchedWordLowerCase) ||
+				nameLowerCase.includes(searchedWordLowerCase)
+			);
+		});
 	}
 	return users;
 };
@@ -26,10 +31,13 @@ export const SearchBar = () => {
 	const { onOpen, onClose, isOpen } = useDisclosure();
 	const inputSearchRef = useRef(null);
 	const { users } = useUsers();
-
 	const [searchedWord, setSearchedWord] = useState('');
-
 	const usersToDisplay = searchUsers(users, searchedWord);
+
+	const closeSearchResult = () => {
+		onClose();
+		setSearchedWord('');
+	};
 	return (
 		<Box pl='1rem'>
 			<Popover
@@ -54,10 +62,7 @@ export const SearchBar = () => {
 							{isOpen ? (
 								<Box
 									as='button'
-									onClick={() => {
-										onClose();
-										setSearchedWord('');
-									}}
+									onClick={closeSearchResult}
 									{...inputRightElementStyle}>
 									<i className='fas fa-times'></i>
 								</Box>
@@ -80,7 +85,7 @@ export const SearchBar = () => {
 									key={user._id}
 									as='button'
 									textAlign='left'
-									onClick={onClose}>
+									onClick={closeSearchResult}>
 									<UserHorizontalCard userDetails={user} />
 								</Box>
 							))

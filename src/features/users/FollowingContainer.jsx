@@ -100,7 +100,7 @@ export const FollowingContainer = ({
 			</Box>
 			<Modal isOpen={isOpen} onClose={onClose} scrollBehavior='inside'>
 				<ModalOverlay />
-				<ModalContent>
+				<ModalContent mx='1rem'>
 					<ModalHeader textAlign='center'>Following</ModalHeader>
 					<ModalCloseButton
 						top='0.75rem'

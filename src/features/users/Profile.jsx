@@ -139,14 +139,14 @@ export const Profile = () => {
 			{userDetails && (
 				<Box maxW='40rem' margin='auto'>
 					<Flex
-						flexWrap='wrap'
+						flexWrap={{ base: 'wrap', md: 'nowrap' }}
 						pb='2rem'
 						mb='2rem'
 						borderBottom='1px solid'
 						borderColor='gray.600'>
 						<Avatar
 							size='2xl'
-							mr={{ md: '2rem', sm: '0' }}
+							mr={{ md: '2rem', base: '0' }}
 							mb='2rem'
 							name={userDetails.userName}
 							src='https://bit.ly/broken-link'

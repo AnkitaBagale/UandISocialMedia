@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Routes, useLocation } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { loadUsers } from './features/users/usersSlice';
+import { LikesContainer } from './features/posts/LikesContainer';
 
 import { useAuthentication } from './features/authentication/authenticationSlice';
 import {
@@ -31,9 +32,9 @@ function App() {
 		authentication: { token },
 	} = useAuthentication();
 	const dispatch = useDispatch();
-	const { sharedPost } = usePostSelector();
 	const sharedQuery = new URLSearchParams(useLocation().search);
 	const sharedPostTitle = sharedQuery.get('title');
+	const { showLikesContainer } = usePostSelector();
 
 	if (token) {
 		setAuthorizationHeader(token);
@@ -56,12 +57,11 @@ function App() {
 		}
 	}, [dispatch, token]);
 
-	console.log({ sharedPost });
-
 	return (
 		<Box>
 			<Nav />
-			<Box padding='2rem 1.5rem' minHeight='70vh'>
+			<Box padding='2rem 1.5rem' minHeight='70vh' mt='5rem'>
+				{showLikesContainer && <LikesContainer />}
 				<Routes>
 					<PrivateRoute path='/' element={<Posts />} />
 					<PrivateRoute path='/profile/:userName' element={<Profile />} />

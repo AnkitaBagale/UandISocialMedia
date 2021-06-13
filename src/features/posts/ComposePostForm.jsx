@@ -121,7 +121,7 @@ export const ComposePostForm = () => {
 
 			<Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
-				<ModalContent>
+				<ModalContent mx='1rem'>
 					<ModalCloseButton
 						top='0.25rem'
 						left='1rem'
