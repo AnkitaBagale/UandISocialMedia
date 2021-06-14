@@ -22,6 +22,13 @@ export const followBtnClickedInFollowersList = createAsyncThunk(
 		return { isAdded, userName };
 	},
 );
+export const removeFromFollowersBtnClicked = createAsyncThunk(
+	'profile/removeFromFollowersBtnClicked',
+	async ({ userName }) => {
+		await axios.post(`${API_URL}/social-profiles/${userName}/following`);
+		return { userName };
+	},
+);
 
 const followersUsersSlice = createSlice({
 	name: 'followersUsers',
@@ -50,6 +57,11 @@ const followersUsersSlice = createSlice({
 			if (index !== -1) {
 				state.followersDetails[index].followedByViewer = action.payload.isAdded;
 			}
+		},
+		[removeFromFollowersBtnClicked.fulfilled]: (state, action) => {
+			state.followersDetails = state.followersDetails.filter(
+				(user) => user.userName !== action.payload.userName,
+			);
 		},
 	},
 });

@@ -21,7 +21,6 @@ import {
 } from '@chakra-ui/modal';
 import { useAuthentication } from '../authentication/authenticationSlice';
 import { Button } from '@chakra-ui/react';
-import { useProfile } from '../profile/profileSlice';
 import { useDispatch } from 'react-redux';
 import {
 	followBtnClickedInFollowingList,
@@ -33,19 +32,19 @@ import {
 export const FollowingContainer = ({ userName }) => {
 	const { isOpen, onClose, onOpen } = useDisclosure();
 	const {
-		authentication: { userName: viewerName },
+		authentication: { userName: viewerName, token },
 	} = useAuthentication();
-	const { followingDetails, status } = useFollowing();
+	const { followingDetails } = useFollowing();
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		if (status === 'idle') {
+		if (token) {
 			dispatch(loadFollowing(userName));
 		}
 		return () => {
 			dispatch(resetFollowing());
 		};
-	}, [dispatch, userName]);
+	}, [dispatch, userName, token]);
 
 	const getFollowButton = (followedByViewer, userFromList, viewerName) => {
 		if (userFromList === viewerName) {

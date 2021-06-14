@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { API_URL } from '../utils';
@@ -43,6 +43,8 @@ export const signupBtnClicked = createAsyncThunk(
 	},
 );
 
+export const logoutUser = createAction('authentication/logoutUser');
+
 export const authenticationSlice = createSlice({
 	name: 'authentication',
 	initialState: {
@@ -52,8 +54,9 @@ export const authenticationSlice = createSlice({
 			signUpError: '',
 		},
 	},
-	reducers: {
-		logoutUser: (state) => {
+	reducers: {},
+	extraReducers: {
+		[logoutUser]: (state) => {
 			Object.assign(state.authentication, {
 				token: '',
 				name: '',
@@ -62,8 +65,6 @@ export const authenticationSlice = createSlice({
 			});
 			localStorage?.removeItem('session');
 		},
-	},
-	extraReducers: {
 		[loginBtnClicked.fulfilled]: (state, action) => {
 			Object.assign(state.authentication, { ...action.payload.userDetails });
 			setLocalStorage(action.payload.userDetails);
@@ -86,7 +87,7 @@ export const authenticationSlice = createSlice({
 	},
 });
 
-export const { logoutUser } = authenticationSlice.actions;
+// export const { logoutUser } = authenticationSlice.actions;
 export default authenticationSlice.reducer;
 export const useAuthentication = () =>
 	useSelector((state) => state.authentication);

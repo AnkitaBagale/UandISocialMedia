@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { logoutUser } from '../authentication/authenticationSlice';
 import { API_URL } from '../utils';
 
 export const loadUsers = createAsyncThunk('users/loadUsers', async () => {
@@ -17,6 +18,9 @@ export const usersSlice = createSlice({
 	},
 	reducers: {},
 	extraReducers: {
+		[logoutUser]: (state, action) => {
+			state.users = [];
+		},
 		[loadUsers.fulfilled]: (state, action) => {
 			state.users = action.payload;
 		},

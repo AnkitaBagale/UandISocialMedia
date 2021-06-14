@@ -27,24 +27,21 @@ const followingUsersSlice = createSlice({
 	name: 'followingUsers',
 	initialState: {
 		followingDetails: [],
-		status: 'idle',
 	},
 	reducers: {
 		resetFollowing: (state) => {
+			console.log('runs...');
 			state.followingDetails = [];
-			state.status = 'idle';
 		},
 	},
 	extraReducers: {
 		[loadFollowing.fulfilled]: (state, action) => {
 			if (action.payload) {
 				state.followingDetails = action.payload;
-				state.status = 'success';
 			}
 		},
 		[loadFollowing.rejected]: (state, action) => {
 			console.log(action.error.message);
-			state.status = 'failure';
 		},
 		[followBtnClickedInFollowingList.fulfilled]: (state, action) => {
 			console.log({ action });

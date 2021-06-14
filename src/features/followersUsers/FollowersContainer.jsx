@@ -20,36 +20,31 @@ import {
 } from '@chakra-ui/modal';
 import { useAuthentication } from '../authentication/authenticationSlice';
 import { Button } from '@chakra-ui/react';
-import {
-	removeFromFollowersBtnClicked,
-	useProfile,
-} from '../profile/profileSlice';
 import { useDispatch } from 'react-redux';
 import {
 	followBtnClickedInFollowersList,
 	loadFollowers,
+	removeFromFollowersBtnClicked,
 	resetFollowers,
 	useFollowers,
 } from './followersUsersSlice';
 
 export const FollowersContainer = ({ userName }) => {
-	const { profileDetails } = useProfile();
 	const { followersDetails } = useFollowers();
 	const dispatch = useDispatch();
-	const followersCount = profileDetails?.count?.followers;
 	const { isOpen, onClose, onOpen } = useDisclosure();
 	const {
-		authentication: { token, userName: viewerName },
+		authentication: { userName: viewerName, token },
 	} = useAuthentication();
 
 	useEffect(() => {
-		if (token && followersCount) {
+		if (token) {
 			dispatch(loadFollowers(userName));
 		}
 		return () => {
 			dispatch(resetFollowers());
 		};
-	}, [token, userName, followersCount, dispatch]);
+	}, [token, userName, dispatch]);
 
 	const getFollowButton = (
 		followedByViewer,

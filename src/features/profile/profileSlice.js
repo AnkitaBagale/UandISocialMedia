@@ -1,7 +1,10 @@
 import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { followBtnClickedInFollowersList } from '../followersUsers/followersUsersSlice';
+import {
+	followBtnClickedInFollowersList,
+	removeFromFollowersBtnClicked,
+} from '../followersUsers/followersUsersSlice';
 import { followBtnClickedInFollowingList } from '../followingUsers/followingUsersSlice';
 
 import { API_URL } from '../utils';
@@ -61,13 +64,6 @@ export const followBtnClicked = createAsyncThunk(
 	},
 );
 
-export const removeFromFollowersBtnClicked = createAsyncThunk(
-	'profile/removeFromFollowersBtnClicked',
-	async ({ userName }) => {
-		await axios.post(`${API_URL}/social-profiles/${userName}/following`);
-		return;
-	},
-);
 export const likeButtonClicked = createAsyncThunk(
 	'posts/likeButtonClicked',
 	async ({ postId, updateProfile = false }) => {

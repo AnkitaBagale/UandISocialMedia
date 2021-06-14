@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { logoutUser } from '../authentication/authenticationSlice';
 import { followBtnClicked, likeButtonClicked } from '../profile/profileSlice';
 import { API_URL } from '../utils';
 
@@ -52,6 +53,12 @@ export const postSlice = createSlice({
 		},
 	},
 	extraReducers: {
+		[logoutUser]: (state, action) => {
+			state.posts = [];
+			state.status = 'idle';
+			state.usersWhoLikedPost = [];
+			state.showLikesContainer = false;
+		},
 		[loadPosts.fulfilled]: (state, action) => {
 			state.posts = action.payload;
 			state.status = 'succeeded';
