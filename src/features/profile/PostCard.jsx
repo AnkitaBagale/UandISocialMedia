@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Avatar, Box, ButtonGroup, IconButton, Text } from '@chakra-ui/react';
-import { likeButtonClicked, userLikesClicked } from '../posts/postSlice';
+import { userLikesClicked } from '../posts/postSlice';
 import {
 	postCardUserInfoStyle,
 	postCardWrapperStyle,
@@ -12,8 +12,11 @@ import {
 	userNameInCaptionStyle,
 } from '../styles';
 import Linkify from 'react-linkify';
+import { likeButtonClicked } from './profileSlice';
 
-export const PostCard = ({ post, setPosts }) => {
+export const PostCard = ({ post }) => {
+	const dispatch = useDispatch();
+
 	const getColorForIconButton = (criteria) =>
 		criteria ? 'pink.800' : 'gray.500';
 
@@ -22,7 +25,9 @@ export const PostCard = ({ post, setPosts }) => {
 			<Box
 				className='link-text'
 				as='button'
-				onClick={() => dispatch(likeButtonClicked({ postId: post._id }))}>
+				onClick={() =>
+					dispatch(likeButtonClicked({ postId: post._id, updateProfile: true }))
+				}>
 				Be the first to like this
 			</Box>
 		) : (
@@ -35,30 +40,6 @@ export const PostCard = ({ post, setPosts }) => {
 		);
 	};
 
-	const dispatch = useDispatch();
-
-	const likeBtnClickedInUserProfile = async () => {
-		const dispatchResponse = await dispatch(
-			likeButtonClicked({ postId: post._id }),
-		);
-
-		if (dispatchResponse.meta.requestStatus === 'fulfilled') {
-			setPosts((posts) =>
-				posts.map((userPost) => {
-					if (userPost._id !== post._id) {
-						return userPost;
-					}
-					return {
-						...userPost,
-						likedByViewer: !userPost.likedByViewer,
-						totalLikes: userPost.likedByViewer
-							? userPost.totalLikes - 1
-							: userPost.totalLikes + 1,
-					};
-				}),
-			);
-		}
-	};
 	return (
 		<>
 			<Box {...postCardWrapperStyle}>
@@ -83,16 +64,20 @@ export const PostCard = ({ post, setPosts }) => {
 				<Box {...postCardFooterStyle}>
 					<ButtonGroup {...postActionButtonsWrapperStyle}>
 						<IconButton
-							onClick={likeBtnClickedInUserProfile}
+							onClick={() =>
+								dispatch(
+									likeButtonClicked({ postId: post._id, updateProfile: true }),
+								)
+							}
 							color={getColorForIconButton(post?.likedByViewer)}
 							variant='actionBtnIcon'
-							aria-label='Search database'
+							aria-label='like'
 							icon={<i className='fas fa-heart icon-btn'></i>}
 						/>
 						<IconButton
 							color='gray.500'
 							variant='actionBtnIcon'
-							aria-label='Search database'
+							aria-label='share'
 							icon={<i className='fas fa-share-alt icon-btn'></i>}
 						/>
 					</ButtonGroup>

@@ -10,6 +10,7 @@ import {
 	ModalOverlay,
 } from '@chakra-ui/modal';
 import { useDispatch } from 'react-redux';
+import { modalBodyStyle, modalCloseBtnStyle } from '../styles';
 import { UserHorizontalCard } from '../users/UserHorizontalCard';
 import { closeBtnInLikesContainerClicked, usePostSelector } from './postSlice';
 
@@ -25,12 +26,10 @@ export const LikesContainer = () => {
 				<ModalContent mx='1rem'>
 					<ModalHeader textAlign='center'>Likes</ModalHeader>
 					<ModalCloseButton
-						top='0.75rem'
-						left='1rem'
-						size='lg'
+						{...modalCloseBtnStyle}
 						onClick={() => dispatch(closeBtnInLikesContainerClicked())}
 					/>
-					<ModalBody pb='0.5rem' borderTop='1px solid' borderColor='gray.600'>
+					<ModalBody {...modalBodyStyle}>
 						{usersWhoLikedPost.length === 0 ? (
 							<Text>No likes yet</Text>
 						) : (

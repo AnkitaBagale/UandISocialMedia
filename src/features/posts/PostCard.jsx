@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Avatar, Box, ButtonGroup, IconButton, Text } from '@chakra-ui/react';
-import { likeButtonClicked, userLikesClicked } from './postSlice';
+import { userLikesClicked } from './postSlice';
 import Linkify from 'react-linkify';
 import {
 	postCardUserInfoStyle,
@@ -12,6 +12,7 @@ import {
 	postActionButtonsWrapperStyle,
 	userNameInCaptionStyle,
 } from '../styles';
+import { likeButtonClicked } from '../profile/profileSlice';
 
 export const PostCard = ({ post }) => {
 	const getColorForIconButton = (criteria) =>
@@ -64,13 +65,13 @@ export const PostCard = ({ post }) => {
 							onClick={() => dispatch(likeButtonClicked({ postId: post._id }))}
 							color={getColorForIconButton(post?.likedByViewer)}
 							variant='actionBtnIcon'
-							aria-label='Search database'
+							aria-label='like'
 							icon={<i className='fas fa-heart icon-btn'></i>}
 						/>
 						<IconButton
 							color='gray.500'
 							variant='actionBtnIcon'
-							aria-label='Search database'
+							aria-label='share'
 							icon={<i className='fas fa-share-alt icon-btn'></i>}
 						/>
 					</ButtonGroup>

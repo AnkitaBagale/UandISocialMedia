@@ -15,15 +15,35 @@ import {
 	Textarea,
 } from '@chakra-ui/react';
 import { inputWrapperStyle, labelStyle, InputStyle } from '../styles';
+import { updateProfileBtnClicked, useProfile } from './profileSlice';
+import { useDispatch } from 'react-redux';
 
-export const UpdateProfileForm = ({
-	userDetails: { bio, link, name, userName },
-	updateProfile,
-}) => {
+export const UpdateProfileForm = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
+
 	const initialRef = useRef();
+
+	const {
+		profileDetails: { bio, link, name, userName },
+	} = useProfile();
+
 	const [inputBio, setBio] = useState(bio);
 	const [inputLink, setLink] = useState(link);
+
+	const dispatch = useDispatch();
+
+	const updateProfile = async () => {
+		try {
+			const dispatchResponse = await dispatch(
+				updateProfileBtnClicked({ userName, inputBio, inputLink }),
+			);
+			if (dispatchResponse.meta.requestStatus === 'fulfilled') {
+				onClose();
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	return (
 		<>
@@ -93,11 +113,7 @@ export const UpdateProfileForm = ({
 					</ModalBody>
 
 					<ModalFooter>
-						<Button
-							onClick={() =>
-								updateProfile(userName, inputBio, inputLink, onClose)
-							}
-							variant='solidPrimary'>
+						<Button onClick={updateProfile} variant='solidPrimary'>
 							Update
 						</Button>
 					</ModalFooter>

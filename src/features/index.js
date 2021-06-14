@@ -1,7 +1,7 @@
 export { Posts } from './posts/Posts';
 export { Footer } from './footer/Footer';
 export { Nav } from './nav/Nav';
-export { Profile } from './users/Profile';
+export { Profile } from './profile/Profile';
 export { Login } from './authentication/Login/Login';
 export { PrivateRoute } from './authentication/PrivateRoute';
 export { PublicRoute } from './authentication/PublicRoute';

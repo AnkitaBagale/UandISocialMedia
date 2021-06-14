@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { followBtnClicked, likeButtonClicked } from '../profile/profileSlice';
 import { API_URL } from '../utils';
 
 export const loadPosts = createAsyncThunk('posts/loadPosts', async () => {
@@ -22,16 +23,6 @@ export const createPostBtnClicked = createAsyncThunk(
 	},
 );
 
-export const likeButtonClicked = createAsyncThunk(
-	'posts/likeButtonClicked',
-	async ({ postId }) => {
-		const {
-			data: { isLiked },
-		} = await axios.post(`${API_URL}/posts/${postId}/likedby`);
-		return { postId, isLiked };
-	},
-);
-
 export const userLikesClicked = createAsyncThunk(
 	'posts/userLikesClicked',
 	async ({ postId }) => {
@@ -41,6 +32,7 @@ export const userLikesClicked = createAsyncThunk(
 		return response;
 	},
 );
+
 export const postSlice = createSlice({
 	name: 'posts',
 	initialState: {
@@ -57,17 +49,6 @@ export const postSlice = createSlice({
 		},
 		storeSharedPost: (state, action) => {
 			state.sharedPost = action.payload.title;
-		},
-		followBtnClickedByViewer: (state, action) => {
-			if (action.payload.followedByViewer) {
-				state.posts.push(...action.payload.posts);
-				state.posts.sort((post1, post2) => post2.createdAt - post1.createdAt);
-			} else {
-				state.posts = state.posts.filter(
-					({ _id }) =>
-						action.payload.posts.findIndex((post) => post._id === _id) === -1,
-				);
-			}
 		},
 	},
 	extraReducers: {
@@ -91,9 +72,9 @@ export const postSlice = createSlice({
 			);
 			if (index !== -1) {
 				state.posts[index].likedByViewer = action.payload.isLiked;
-				state.posts[index].totalLikes = action.payload.isLiked
-					? state.posts[index].totalLikes + 1
-					: state.posts[index].totalLikes - 1;
+				action.payload.isLiked
+					? state.posts[index].totalLikes++
+					: state.posts[index].totalLikes--;
 			}
 		},
 		[likeButtonClicked.rejected]: (state, action) => {
@@ -106,13 +87,20 @@ export const postSlice = createSlice({
 		[userLikesClicked.rejected]: (state, action) => {
 			console.log(action.error.message);
 		},
+		[followBtnClicked.fulfilled]: (state, action) => {
+			if (action.payload.isAdded) {
+				state.posts.push(...action.payload.posts);
+				state.posts.sort((post1, post2) => post2.createdAt - post1.createdAt);
+			} else {
+				state.posts = state.posts.filter(
+					({ _id }) => !action.payload.posts.find((post) => post._id === _id),
+				);
+			}
+		},
 	},
 });
 
 export default postSlice.reducer;
-export const {
-	closeBtnInLikesContainerClicked,
-	followBtnClickedByViewer,
-	storeSharedPost,
-} = postSlice.actions;
+export const { closeBtnInLikesContainerClicked, storeSharedPost } =
+	postSlice.actions;
 export const usePostSelector = () => useSelector((state) => state.posts);
