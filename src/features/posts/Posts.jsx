@@ -13,7 +13,9 @@ export const Posts = () => {
 				templateColumns={{ md: '2fr 1fr', base: '1fr' }}
 				gap='2rem'
 				justifyContent='space-around'>
-				<GridItem overflowY='auto' maxH='calc(100vh - 7rem)'>
+				<GridItem
+					overflowY={{ md: 'auto' }}
+					maxH={{ md: 'calc(100vh - 7rem)' }}>
 					{posts.length === 0 ? (
 						<Text textAlign='center'>No Posts Yet</Text>
 					) : (

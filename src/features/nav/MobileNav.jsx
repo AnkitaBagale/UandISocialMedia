@@ -3,21 +3,11 @@ import { CloseIcon } from '@chakra-ui/icons';
 import { VStack, Slide, Box, IconButton, Avatar } from '@chakra-ui/react';
 import { useAuthentication } from '../authentication/authenticationSlice';
 
-export const NAV_ITEMS = [
-	{
-		label: 'Home',
-		href: '/',
-	},
-	{
-		label: 'Dashboard',
-		href: '/dashboard',
-	},
-];
-
 export const MobileNav = ({ isOpen, onToggle }) => {
 	const {
 		authentication: { userName },
 	} = useAuthentication();
+
 	return (
 		<Slide direction='left' left='0' top='0' in={isOpen} style={{ zIndex: 10 }}>
 			<Box
@@ -64,7 +54,9 @@ export const MobileNav = ({ isOpen, onToggle }) => {
 					<NavLink to='/notification' activeClassName='primary-text-color'>
 						Notification
 					</NavLink>
-					<NavLink to='/profile' activeClassName='primary-text-color'>
+					<NavLink
+						to={`/profile/${userName}`}
+						activeClassName='primary-text-color'>
 						Profile
 					</NavLink>
 				</VStack>
