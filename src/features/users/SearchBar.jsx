@@ -24,7 +24,7 @@ const searchUsers = (users, searchedWord) => {
 			);
 		});
 	}
-	return users;
+	return [];
 };
 
 export const SearchBar = () => {
@@ -77,7 +77,9 @@ export const SearchBar = () => {
 				<PopoverContent maxH='80vh' overflowY='auto' pr='1rem' pl='1rem'>
 					<Box>
 						{usersToDisplay.length === 0 ? (
-							<Text color='gray.500'>No user found!</Text>
+							<Text p='1rem 0' color='gray.500'>
+								{searchedWord ? 'No user found!' : 'Search user!'}
+							</Text>
 						) : (
 							usersToDisplay.map((user) => (
 								<Box
