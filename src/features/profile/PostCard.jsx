@@ -1,6 +1,13 @@
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Avatar, Box, ButtonGroup, IconButton, Text } from '@chakra-ui/react';
+import {
+	Avatar,
+	Box,
+	ButtonGroup,
+	IconButton,
+	Text,
+	Image,
+} from '@chakra-ui/react';
 import { userLikesClicked } from '../posts/postSlice';
 import {
 	postCardUserInfoStyle,
@@ -10,6 +17,7 @@ import {
 	postCardFooterStyle,
 	postActionButtonsWrapperStyle,
 	userNameInCaptionStyle,
+	postMediaStyle,
 } from '../styles';
 import Linkify from 'react-linkify';
 import { likeButtonClicked } from './profileSlice';
@@ -61,6 +69,7 @@ export const PostCard = ({ post }) => {
 						{post?.content}
 					</Linkify>
 				</Text>
+				{post?.media && <Image {...postMediaStyle} src={post?.media} />}
 				<Box {...postCardFooterStyle}>
 					<ButtonGroup {...postActionButtonsWrapperStyle}>
 						<IconButton

@@ -1,6 +1,7 @@
-import { useEffect, useReducer, useRef } from 'react';
+import { useEffect, useReducer, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { WarningTwoIcon } from '@chakra-ui/icons';
+import { WarningTwoIcon, CloseIcon } from '@chakra-ui/icons';
+import { UploadImage } from './UploadImage';
 import {
 	Modal,
 	ModalOverlay,
@@ -17,6 +18,10 @@ import {
 	Box,
 	Flex,
 	Textarea,
+	Text,
+	TagCloseButton,
+	Tag,
+	TagLabel,
 } from '@chakra-ui/react';
 
 import {
@@ -37,9 +42,12 @@ import {
 } from './reducer/newPostFormReducer';
 import { useAuthentication } from '../authentication/authenticationSlice';
 import { useNavigate } from 'react-router';
+import { CLOUDINARY_PRESET, CLOUDINARY_URL } from '../utils/constants';
 
 export const ComposePostForm = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
+	const [deleteToken, setToken] = useState('');
+	const [media, setMedia] = useState(null);
 	const initialRef = useRef();
 	const dispatch = useDispatch();
 	const [formState, formDispatch] = useReducer(
@@ -73,6 +81,7 @@ export const ComposePostForm = () => {
 			const newPostDetails = {
 				caption: formState.caption,
 				content: formState.content,
+				media: media ? media.url : '',
 			};
 			const { meta } = await dispatch(
 				createPostBtnClicked({ post: newPostDetails }),
@@ -81,6 +90,8 @@ export const ComposePostForm = () => {
 				formDispatch({
 					type: CLEAR_FORM,
 				});
+				setMedia(null);
+				setToken('');
 				onClose();
 				navigate('/');
 			}
@@ -102,11 +113,32 @@ export const ComposePostForm = () => {
 			})();
 		}
 	}, [token, sharedPost, SET_CAPTION, SET_CONTENT, dispatch, onOpen]);
+	const deleteImage = async () => {
+		try {
+			const formData = new FormData();
+			formData.append('upload_preset', CLOUDINARY_PRESET);
+			formData.append('token', deleteToken);
+			await fetch(`${CLOUDINARY_URL}/delete_by_token`, {
+				method: 'POST',
+				body: formData,
+			});
+			setToken('');
+			setMedia(null);
+		} catch (error) {
+			console.log(error);
+			setToken('');
+			setMedia(null);
+		}
+	};
 
-	const clearPostForm = () => {
+	const clearPostForm = async () => {
 		formDispatch({
 			type: CLEAR_FORM,
 		});
+		if (deleteToken) {
+			await deleteImage();
+		}
+
 		onClose();
 		navigate('/');
 	};
@@ -119,7 +151,11 @@ export const ComposePostForm = () => {
 				icon={<i className='fas fa-plus-circle icon-btn-nav-item'></i>}
 			/>
 
-			<Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
+			<Modal
+				closeOnOverlayClick={false}
+				initialFocusRef={initialRef}
+				isOpen={isOpen}
+				onClose={onClose}>
 				<ModalOverlay />
 				<ModalContent mx='1rem'>
 					<ModalCloseButton
@@ -176,6 +212,18 @@ export const ComposePostForm = () => {
 										</Box>
 									)}
 								</FormControl>
+								<Box>
+									{media && (
+										<Box as='span'>
+											<Tag variant='outline'>
+												<i className='fas fa-file-image'></i>
+												<TagLabel pl='0.25rem'>{media.fileName}</TagLabel>
+												<TagCloseButton onClick={deleteImage} />
+											</Tag>
+										</Box>
+									)}
+									<UploadImage setToken={setToken} setMedia={setMedia} />
+								</Box>
 							</Box>
 						</Flex>
 					</ModalBody>

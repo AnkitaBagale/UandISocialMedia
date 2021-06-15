@@ -42,3 +42,9 @@ export const userNameInCaptionStyle = {
 	pr: '0.25rem',
 	as: 'span',
 };
+
+export const postMediaStyle = {
+	fit: 'fill',
+	maxH: '20rem',
+	htmlWidth: '100%',
+};
