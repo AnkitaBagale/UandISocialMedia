@@ -40,7 +40,7 @@ import {
 	ACTIONS,
 } from './reducer/newPostFormReducer';
 import { useAuthentication } from '../authentication/authenticationSlice';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { CLOUDINARY_PRESET, CLOUDINARY_URL } from '../utils/constants';
 
 export const ComposePostForm = () => {
@@ -56,7 +56,8 @@ export const ComposePostForm = () => {
 	const {
 		authentication: { userName, token },
 	} = useAuthentication();
-
+	const sharedQuery = new URLSearchParams(useLocation().search);
+	const sharedPostTitle = sharedQuery.get('title');
 	const { sharedPost } = usePostSelector();
 
 	const {
@@ -92,7 +93,9 @@ export const ComposePostForm = () => {
 				setMedia(null);
 				setToken('');
 				onClose();
-				navigate('/');
+				if (sharedPostTitle) {
+					navigate('/');
+				}
 			}
 		}
 	};
@@ -137,9 +140,10 @@ export const ComposePostForm = () => {
 		if (deleteToken) {
 			await deleteImage();
 		}
-
 		onClose();
-		navigate('/');
+		if (sharedPostTitle) {
+			navigate('/');
+		}
 	};
 
 	return (
