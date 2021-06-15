@@ -1,6 +1,6 @@
 import { useEffect, useReducer, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { WarningTwoIcon, CloseIcon } from '@chakra-ui/icons';
+import { WarningTwoIcon } from '@chakra-ui/icons';
 import { UploadImage } from './UploadImage';
 import {
 	Modal,
@@ -18,7 +18,6 @@ import {
 	Box,
 	Flex,
 	Textarea,
-	Text,
 	TagCloseButton,
 	Tag,
 	TagLabel,
