@@ -10,7 +10,7 @@ export const Posts = () => {
 		<>
 			<Grid
 				margin='auto'
-				templateColumns={{ md: '2fr 1fr', base: '1fr' }}
+				templateColumns={{ md: '3fr 1fr', base: '1fr' }}
 				gap='2rem'
 				justifyContent='space-around'>
 				<GridItem

@@ -20,18 +20,22 @@ import { UpdateProfileForm } from './UpdateProfileForm';
 import { FollowersContainer } from '../followersUsers/FollowersContainer';
 import { FollowingContainer } from '../followingUsers/FollowingContainer';
 import {
-	followBtnClicked,
 	loadUserPosts,
 	loadUserProfile,
 	resetProfile,
 	useProfile,
 } from './profileSlice';
+import { followBtnClicked } from '../followersUsers/followersUsersSlice';
 
 export const Profile = () => {
 	const { userName } = useParams();
 	const { profileDetails, postsDetails } = useProfile();
 	const {
-		authentication: { userName: viewerUserName },
+		authentication: {
+			userName: viewerUserName,
+			avatar: viewerAvatar,
+			name: viewerName,
+		},
 	} = useAuthentication();
 	const dispatch = useDispatch();
 
@@ -58,7 +62,13 @@ export const Profile = () => {
 			<Button
 				variant='outlineSecondary'
 				onClick={() =>
-					dispatch(followBtnClicked({ userName, posts: postsDetails }))
+					dispatch(
+						followBtnClicked({
+							userName,
+							posts: postsDetails,
+							viewerDetails: { viewerUserName, viewerAvatar, viewerName },
+						}),
+					)
 				}>
 				{profileDetails.followedByViewer ? 'Following' : 'Follow'}
 			</Button>
@@ -73,7 +83,7 @@ export const Profile = () => {
 						<Avatar
 							{...profileAvatarStyle}
 							name={profileDetails.userName}
-							src='https://bit.ly/broken-link'
+							src={profileDetails?.avatar}
 						/>
 						<Box>
 							<HStack alignItems='center' mb='1rem'>

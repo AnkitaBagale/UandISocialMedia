@@ -2,11 +2,11 @@ import { useEffect, useReducer, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { WarningTwoIcon } from '@chakra-ui/icons';
 import { UploadImage } from './UploadImage';
+import { Divider } from '@chakra-ui/layout';
 import {
 	Modal,
 	ModalOverlay,
 	ModalContent,
-	ModalFooter,
 	ModalBody,
 	ModalCloseButton,
 	useDisclosure,
@@ -21,7 +21,16 @@ import {
 	TagCloseButton,
 	Tag,
 	TagLabel,
+	HStack,
 } from '@chakra-ui/react';
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+	PopoverArrow,
+	PopoverCloseButton,
+	PopoverBody,
+} from '@chakra-ui/popover';
 
 import {
 	errorSymbolStyle,
@@ -42,6 +51,7 @@ import {
 import { useAuthentication } from '../authentication/authenticationSlice';
 import { useLocation, useNavigate } from 'react-router';
 import { CLOUDINARY_PRESET, CLOUDINARY_URL } from '../utils/constants';
+import { emojis } from '../../database/database';
 
 export const ComposePostForm = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
@@ -54,7 +64,7 @@ export const ComposePostForm = () => {
 		initialStateOfPostForm,
 	);
 	const {
-		authentication: { userName, token },
+		authentication: { userName, token, avatar },
 	} = useAuthentication();
 	const sharedQuery = new URLSearchParams(useLocation().search);
 	const sharedPostTitle = sharedQuery.get('title');
@@ -173,11 +183,7 @@ export const ComposePostForm = () => {
 						borderTop='1px solid'
 						borderColor='gray.600'>
 						<Flex mt='1rem'>
-							<Avatar
-								{...mdAvatarStyle}
-								name={userName}
-								src='https://bit.ly/broken-link'
-							/>
+							<Avatar {...mdAvatarStyle} name={userName} src={avatar} />
 							<Box w='100%'>
 								<FormControl>
 									<Input
@@ -206,38 +212,83 @@ export const ComposePostForm = () => {
 											})
 										}
 										placeholder="What's happening?"
+										onFocus={() => {
+											formDispatch({ type: SET_CONTENT_ERROR, payload: '' });
+										}}
 										isInvalid={!!formState.contentError}
 									/>
 									{formState.contentError && (
-										<Box {...errorWrapperStyle}>
+										<Box {...errorWrapperStyle} mb='0.5rem'>
 											<WarningTwoIcon {...errorSymbolStyle} />
 											{formState.contentError}
 										</Box>
 									)}
 								</FormControl>
-								<Box>
-									{media && (
-										<Box as='span'>
-											<Tag variant='outline'>
-												<i className='fas fa-file-image'></i>
-												<TagLabel pl='0.25rem'>{media.fileName}</TagLabel>
-												<TagCloseButton onClick={deleteImage} />
-											</Tag>
-										</Box>
-									)}
-									<UploadImage setToken={setToken} setMedia={setMedia} />
-								</Box>
+								{media && (
+									<Box as='span'>
+										<Tag variant='outline'>
+											<i className='fas fa-file-image'></i>
+											<TagLabel pl='0.25rem'>{media.fileName}</TagLabel>
+											<TagCloseButton onClick={deleteImage} />
+										</Tag>
+									</Box>
+								)}
+								<Divider borderColor='gray.600' m='1rem 0' />
+								<Flex
+									justifyContent='space-between'
+									alignItems='center'
+									mb='1rem'>
+									<HStack wrap='wrap' spacing='1rem'>
+										<UploadImage
+											setToken={setToken}
+											setMedia={setMedia}
+											iconClass='fas fa-image icon-btn-nav-item'
+										/>
+
+										<EmojiContainer formDispatch={formDispatch} />
+									</HStack>
+									<Button onClick={postButtonClicked} variant='solidPrimary'>
+										Post
+									</Button>
+								</Flex>
 							</Box>
 						</Flex>
 					</ModalBody>
-
-					<ModalFooter>
-						<Button onClick={postButtonClicked} variant='solidPrimary'>
-							Post
-						</Button>
-					</ModalFooter>
 				</ModalContent>
 			</Modal>
 		</>
+	);
+};
+
+const EmojiContainer = ({ formDispatch }) => {
+	const { onClose, isOpen, onOpen } = useDisclosure();
+	const { EMOJI_CLICKED } = ACTIONS;
+	return (
+		<Popover isOpen={isOpen} onOpen={onOpen} onClose={onClose}>
+			<PopoverTrigger>
+				<IconButton
+					variant='actionBtnIcon'
+					icon={<i className='fas fa-smile-beam icon-btn-nav-item'></i>}
+				/>
+			</PopoverTrigger>
+			<PopoverContent>
+				<PopoverArrow />
+				<PopoverCloseButton />
+
+				<PopoverBody>
+					<HStack wrap='wrap' spacing='0'>
+						{emojis.map((emoji) => (
+							<Button
+								onClick={() =>
+									formDispatch({ type: EMOJI_CLICKED, payload: { emoji } })
+								}
+								variant='ghost'>
+								{emoji}
+							</Button>
+						))}
+					</HStack>
+				</PopoverBody>
+			</PopoverContent>
+		</Popover>
 	);
 };

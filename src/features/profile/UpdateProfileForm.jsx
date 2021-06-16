@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import {
 	Modal,
 	ModalOverlay,
@@ -13,29 +13,65 @@ import {
 	Box,
 	FormLabel,
 	Textarea,
+	Avatar,
+	AvatarBadge,
 } from '@chakra-ui/react';
-import { inputWrapperStyle, labelStyle, InputStyle } from '../styles';
+import {
+	inputWrapperStyle,
+	labelStyle,
+	InputStyle,
+	mdAvatarStyle,
+} from '../styles';
 import { updateProfileBtnClicked, useProfile } from './profileSlice';
+import { UploadImage } from '../posts/UploadImage';
 import { useDispatch } from 'react-redux';
+import { CLOUDINARY_PRESET, CLOUDINARY_URL } from '../utils/constants';
 
 export const UpdateProfileForm = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
-	const initialRef = useRef();
-
 	const {
-		profileDetails: { bio, link, name, userName },
+		profileDetails: { bio, link, name, userName, avatar: profileAvatar },
 	} = useProfile();
 
 	const [inputBio, setBio] = useState(bio);
 	const [inputLink, setLink] = useState(link);
+	const intialMedia = {
+		fileName: 'avatar',
+		url: profileAvatar,
+	};
+	const [media, setMedia] = useState(intialMedia);
+	const [deleteToken, setToken] = useState('');
 
 	const dispatch = useDispatch();
+
+	const deleteImage = async () => {
+		try {
+			const formData = new FormData();
+			formData.append('upload_preset', CLOUDINARY_PRESET);
+			formData.append('token', deleteToken);
+			await fetch(`${CLOUDINARY_URL}/delete_by_token`, {
+				method: 'POST',
+				body: formData,
+			});
+			setToken('');
+			setMedia(intialMedia);
+		} catch (error) {
+			console.log(error);
+			setToken('');
+			setMedia(intialMedia);
+		}
+	};
 
 	const updateProfile = async () => {
 		try {
 			const dispatchResponse = await dispatch(
-				updateProfileBtnClicked({ userName, inputBio, inputLink }),
+				updateProfileBtnClicked({
+					userName,
+					inputBio,
+					inputLink,
+					avatar: media.url,
+				}),
 			);
 			if (dispatchResponse.meta.requestStatus === 'fulfilled') {
 				onClose();
@@ -45,21 +81,50 @@ export const UpdateProfileForm = () => {
 		}
 	};
 
+	const clearUpdates = async () => {
+		if (deleteToken) {
+			await deleteImage();
+		}
+		setBio(bio);
+		setLink(link);
+	};
+
 	return (
 		<>
 			<Button variant='outlineSecondary' onClick={onOpen}>
 				Edit Profile
 			</Button>
-			<Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
+			<Modal isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />
 				<ModalContent mx='1rem'>
-					<ModalCloseButton top='0.25rem' left='1rem' size='lg' />
+					<ModalCloseButton
+						top='0.25rem'
+						left='1rem'
+						size='lg'
+						onClick={clearUpdates}
+					/>
+
 					<ModalBody
 						pb={0}
 						mt='3rem'
 						borderTop='1px solid'
 						borderColor='gray.600'>
 						<Box w='100%' mt='1rem'>
+							<Box {...inputWrapperStyle}>
+								<FormLabel {...labelStyle}>Avatar</FormLabel>
+								<Box w='100%'>
+									<Avatar {...mdAvatarStyle} name={userName} src={media?.url}>
+										<AvatarBadge border='none'>
+											<UploadImage
+												iconClass='fas fa-camera'
+												setMedia={setMedia}
+												setToken={setToken}
+											/>
+										</AvatarBadge>
+									</Avatar>
+								</Box>
+							</Box>
+
 							<FormControl id='name' {...inputWrapperStyle}>
 								<FormLabel {...labelStyle}>Name</FormLabel>
 								<Box w='100%'>
@@ -90,7 +155,6 @@ export const UpdateProfileForm = () => {
 									<Input
 										type='text'
 										{...InputStyle}
-										ref={initialRef}
 										value={inputLink}
 										onChange={(e) => setLink(e.target.value)}
 										placeholder='Website'
@@ -122,3 +186,5 @@ export const UpdateProfileForm = () => {
 		</>
 	);
 };
+
+// <i class="fas fa-camera"></i>

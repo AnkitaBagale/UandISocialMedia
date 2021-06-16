@@ -5,19 +5,19 @@ import { Box, HStack } from '@chakra-ui/layout';
 import { useAuthentication } from '../authentication/authenticationSlice';
 import { ComposePostForm } from '../posts/ComposePostForm';
 import { avatarWrapperStyle, avatarStyle } from '../styles';
+import { Notification } from './Notification';
 
 export const DesktopNav = () => {
 	const {
-		authentication: { userName },
+		authentication: { userName, avatar },
 	} = useAuthentication();
 	return (
-		<HStack ml={10} spacing='1rem' alignItems='center'>
-			<ComposePostForm />
+		<HStack spacing='1rem' alignItems='center'>
 			<HStack
 				display={{ base: 'none', md: 'flex' }}
-				ml={10}
 				spacing='1rem'
 				alignItems='center'>
+				<ComposePostForm />
 				<Link to='/'>
 					<IconButton
 						variant='iconBtn'
@@ -25,22 +25,13 @@ export const DesktopNav = () => {
 					/>
 				</Link>
 
-				<Link to='/notification'>
-					<IconButton
-						variant='iconBtn'
-						icon={<i className='far fa-bell icon-btn-nav-item'></i>}
-					/>
-				</Link>
-				<Link to={`/profile/${userName}`}>
-					<Box {...avatarWrapperStyle}>
-						<Avatar
-							{...avatarStyle}
-							name={userName}
-							src='https://bit.ly/broken-link'
-						/>
-					</Box>
-				</Link>
+				<Notification />
 			</HStack>
+			<Link to={`/profile/${userName}`}>
+				<Box {...avatarWrapperStyle}>
+					<Avatar {...avatarStyle} name={userName} src={avatar} />
+				</Box>
+			</Link>
 		</HStack>
 	);
 };

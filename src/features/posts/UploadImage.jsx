@@ -8,12 +8,14 @@ import {
 	ModalCloseButton,
 	useDisclosure,
 	Box,
+	IconButton,
 } from '@chakra-ui/react';
 import { uploadImageWrapperStyle } from '../styles/uploadImageStyles';
 import { CLOUDINARY_PRESET, CLOUDINARY_URL } from '../utils/constants';
 
-export const UploadImage = ({ setToken, setMedia }) => {
+export const UploadImage = ({ setToken, setMedia, iconClass }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
+
 	const onDrop = async (acceptedFiles) => {
 		const formData = new FormData();
 		const file = acceptedFiles[0];
@@ -38,9 +40,11 @@ export const UploadImage = ({ setToken, setMedia }) => {
 
 	return (
 		<>
-			<Box onClick={onOpen}>
-				<i className='fas fa-image icon-btn-nav-item'></i>
-			</Box>
+			<IconButton
+				variant='actionBtnIcon'
+				onClick={onOpen}
+				icon={<i className={`${iconClass} icon-btn-nav-item`}></i>}
+			/>
 
 			<Modal isOpen={isOpen} onClose={onClose}>
 				<ModalOverlay />

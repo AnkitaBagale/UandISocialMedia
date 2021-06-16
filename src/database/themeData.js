@@ -43,7 +43,7 @@ export const Button = {
 			height: 'auto',
 			px: '1.5rem',
 			color: 'gray.100',
-			bg: 'pink.800',
+			bg: 'pink.700',
 			_hover: { bg: 'pink.900' },
 			_active: {
 				bg: 'pink.900',
@@ -71,7 +71,7 @@ export const Button = {
 			height: 'auto',
 			px: '1.5rem',
 			color: 'gray.100',
-			bg: 'pink.800',
+			bg: 'pink.700',
 			_hover: { bg: 'pink.900' },
 			_active: {
 				bg: 'pink.900',
@@ -99,6 +99,9 @@ export const Button = {
 		},
 		actionBtnIcon: {
 			minW: '1.2rem',
+			h: '1.2rem',
+			my: '0.5rem',
+			color: 'gray.500',
 		},
 		iconBtn: {
 			as: 'span',

@@ -1,6 +1,4 @@
 export const postCardWrapperStyle = {
-	// border: '1px solid',
-	// borderColor: 'gray.600',
 	mb: '3rem',
 	borderRadius: 'xl',
 	boxShadow: '0px 0px 10px 4px rgb(0 0 0 / 5%)',
@@ -12,11 +10,6 @@ export const postCardUserInfoStyle = {
 	alignItems: 'center',
 	borderBottom: '1px solid',
 	borderColor: 'gray.400',
-};
-
-export const smallAvatarStyle = {
-	mr: '1rem',
-	size: 'sm',
 };
 
 export const postCardContentStyle = {

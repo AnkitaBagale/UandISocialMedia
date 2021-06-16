@@ -13,6 +13,16 @@ export const loadFollowers = createAsyncThunk(
 	},
 );
 
+export const followBtnClicked = createAsyncThunk(
+	'profile/followBtnClicked',
+	async ({ userName, posts = [], viewerDetails }) => {
+		const {
+			data: { isAdded },
+		} = await axios.post(`${API_URL}/social-profiles/${userName}/followers`);
+		return { isAdded, posts, viewerDetails };
+	},
+);
+
 export const followBtnClickedInFollowersList = createAsyncThunk(
 	'profile/followBtnClickedInFollowersList',
 	async ({ userName }) => {
@@ -48,6 +58,22 @@ const followersUsersSlice = createSlice({
 		},
 		[loadFollowers.rejected]: (state, action) => {
 			console.log(action.error.message);
+		},
+		[followBtnClicked.fulfilled]: (state, action) => {
+			const index = state.followersDetails.findIndex(
+				(user) => user.userName === action.payload.viewerDetails.viewerUserName,
+			);
+
+			if (index === -1) {
+				const viewer = {
+					name: action.payload.viewerDetails.viewerName,
+					userName: action.payload.viewerDetails.viewerUserName,
+					avatar: action.payload.viewerDetails.viewerAvatar,
+				};
+				state.followersDetails.unshift(viewer);
+			} else {
+				state.followersDetails.splice(index, 1);
+			}
 		},
 		[followBtnClickedInFollowersList.fulfilled]: (state, action) => {
 			const index = state.followersDetails.findIndex(

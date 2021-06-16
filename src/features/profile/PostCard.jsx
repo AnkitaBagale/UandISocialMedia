@@ -26,7 +26,7 @@ export const PostCard = ({ post }) => {
 	const dispatch = useDispatch();
 
 	const getColorForIconButton = (criteria) =>
-		criteria ? 'pink.800' : 'gray.500';
+		criteria ? 'pink.700' : 'gray.500';
 
 	const getLikesText = (totalLikes) => {
 		return totalLikes === 0 ? (
@@ -55,7 +55,7 @@ export const PostCard = ({ post }) => {
 					<Avatar
 						{...smallAvatarStyle}
 						name={post?.userId?.userName}
-						src='https://bit.ly/broken-link'
+						src={post?.userId?.avatar}
 					/>
 					<Link className='link-text' to={`/profile/${post?.userId?.userName}`}>
 						{post?.userId?.userName}
@@ -84,7 +84,6 @@ export const PostCard = ({ post }) => {
 							icon={<i className='fas fa-heart icon-btn'></i>}
 						/>
 						<IconButton
-							color='gray.500'
 							variant='actionBtnIcon'
 							aria-label='share'
 							icon={<i className='fas fa-share-alt icon-btn'></i>}

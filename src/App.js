@@ -4,7 +4,10 @@ import { useDispatch } from 'react-redux';
 import { loadUsers } from './features/users/usersSlice';
 import { LikesContainer } from './features/posts/LikesContainer';
 
-import { useAuthentication } from './features/authentication/authenticationSlice';
+import {
+	loadNotifications,
+	useAuthentication,
+} from './features/authentication/authenticationSlice';
 import {
 	Posts,
 	Footer,
@@ -54,6 +57,7 @@ function App() {
 		if (token) {
 			dispatch(loadUsers());
 			dispatch(loadPosts());
+			dispatch(loadNotifications());
 		}
 	}, [dispatch, token]);
 

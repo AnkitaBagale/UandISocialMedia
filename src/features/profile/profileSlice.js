@@ -1,7 +1,8 @@
-import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import {
+	followBtnClicked,
 	followBtnClickedInFollowersList,
 	removeFromFollowersBtnClicked,
 } from '../followersUsers/followersUsersSlice';
@@ -43,24 +44,15 @@ export const loadFollowing = createAsyncThunk(
 
 export const updateProfileBtnClicked = createAsyncThunk(
 	'profile/updateProfileBtnClicked',
-	async ({ userName, inputBio, inputLink }) => {
+	async ({ userName, inputBio, inputLink, avatar }) => {
 		const {
 			data: { response },
 		} = await axios.post(`${API_URL}/social-profiles/${userName}`, {
 			bio: inputBio,
 			link: inputLink,
+			avatar,
 		});
 		return response;
-	},
-);
-
-export const followBtnClicked = createAsyncThunk(
-	'profile/followBtnClicked',
-	async ({ userName, posts = [] }) => {
-		const {
-			data: { isAdded },
-		} = await axios.post(`${API_URL}/social-profiles/${userName}/followers`);
-		return { isAdded, posts };
 	},
 );
 
@@ -105,6 +97,7 @@ const profileSlice = createSlice({
 		[updateProfileBtnClicked.fulfilled]: (state, action) => {
 			state.profileDetails.bio = action.payload.bio;
 			state.profileDetails.link = action.payload.link;
+			state.profileDetails.avatar = action.payload.avatar;
 		},
 		[updateProfileBtnClicked.rejected]: (state, action) => {
 			console.log(action.error.message);
@@ -145,13 +138,10 @@ const profileSlice = createSlice({
 			}
 		},
 		[followBtnClickedInFollowingList.fulfilled]: (state, action) => {
-			console.log(action.payload.viewerName, state.profileDetails.userName);
 			if (action.payload.viewerName === state.profileDetails.userName) {
 				action.payload.isAdded
 					? state.profileDetails.count.following++
 					: state.profileDetails.count.following--;
-
-				console.log(current(state));
 			}
 		},
 		[removeFromFollowersBtnClicked.fulfilled]: (state, action) => {

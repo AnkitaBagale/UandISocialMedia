@@ -6,12 +6,6 @@ export const profileDetailsWrapperStyle = {
 	borderColor: 'gray.600',
 };
 
-export const profileAvatarStyle = {
-	size: '2xl',
-	mr: { md: '2rem', base: '0' },
-	mb: '2rem',
-};
-
 export const countStyle = {
 	pr: '0.25rem',
 	fontWeight: '500',

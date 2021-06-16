@@ -12,11 +12,6 @@ export const InputStyle = {
 	},
 };
 
-export const mdAvatarStyle = {
-	mr: '1rem',
-	size: 'md',
-};
-
 export const errorSymbolStyle = {
 	pr: '0.25rem',
 	height: '1.2rem',

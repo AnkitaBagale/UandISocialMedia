@@ -1,9 +1,14 @@
 import { createAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { updateProfileBtnClicked } from '../profile/profileSlice';
 import { API_URL } from '../utils';
 import { setAuthorizationHeader } from './utils/setAuthorizationHeader';
-import { getLocalStorage, setLocalStorage } from './utils/setLocalStorage';
+import {
+	getLocalStorage,
+	setLocalStorage,
+	updateSessionDetailsInLocalStorage,
+} from './utils/setLocalStorage';
 
 export const loginBtnClicked = createAsyncThunk(
 	'authenticate/loginBtnClicked',
@@ -43,6 +48,19 @@ export const signupBtnClicked = createAsyncThunk(
 	},
 );
 
+export const loadNotifications = createAsyncThunk(
+	'authenticate/loadNotifications',
+	async () => {
+		const {
+			data: { response },
+		} = await axios({
+			method: 'GET',
+			url: `${API_URL}/social-profiles/notifications`,
+		});
+		return response;
+	},
+);
+
 export const logoutUser = createAction('authentication/logoutUser');
 
 export const authenticationSlice = createSlice({
@@ -53,6 +71,7 @@ export const authenticationSlice = createSlice({
 			signUpStatus: 'idle',
 			signUpError: '',
 		},
+		notifications: [],
 	},
 	reducers: {},
 	extraReducers: {
@@ -62,7 +81,9 @@ export const authenticationSlice = createSlice({
 				name: '',
 				userName: '',
 				userId: '',
+				avatar: '',
 			});
+			state.notifications = [];
 			localStorage?.removeItem('session');
 		},
 		[loginBtnClicked.fulfilled]: (state, action) => {
@@ -71,7 +92,7 @@ export const authenticationSlice = createSlice({
 			setAuthorizationHeader(action.payload.userDetails.token);
 		},
 		[loginBtnClicked.rejected]: (state, action) => {
-			console.log({ error: action });
+			console.log(action.error.message);
 		},
 		[signupBtnClicked.pending]: (state, action) => {
 			state.signUp.signUpStatus = 'loading';
@@ -84,10 +105,19 @@ export const authenticationSlice = createSlice({
 			state.signUp.signUpStatus = 'failure';
 			state.signUp.signUpError = action.payload;
 		},
+		[updateProfileBtnClicked.fulfilled]: (state, action) => {
+			state.authentication.avatar = action.payload.avatar;
+			updateSessionDetailsInLocalStorage(action.payload.avatar);
+		},
+		[loadNotifications.fulfilled]: (state, action) => {
+			state.notifications = action.payload;
+		},
+		[loadNotifications.rejected]: (state, action) => {
+			console.log(action.error.message);
+		},
 	},
 });
 
-// export const { logoutUser } = authenticationSlice.actions;
 export default authenticationSlice.reducer;
 export const useAuthentication = () =>
 	useSelector((state) => state.authentication);

@@ -44,10 +44,14 @@ export const avatarWrapperStyle = {
 	p: 0,
 };
 
-export const avatarStyle = {
-	as: 'span',
-	size: 'xs',
-	_hover: {
-		bg: 'pink.900',
-	},
+export const mobileNavWrapperStyle = {
+	display: { base: 'flex', md: 'none' },
+	pos: 'fixed',
+	bottom: '0',
+	width: '100%',
+	p: '1rem 1.5rem',
+	bg: 'white',
+	justifyContent: 'space-between',
+	alignItems: 'center',
+	boxShadow: '0px 0px 10px 4px rgb(0 0 0 / 5%)',
 };

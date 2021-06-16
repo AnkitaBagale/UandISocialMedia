@@ -99,7 +99,7 @@ export const FollowersContainer = ({ userName }) => {
 						{followersDetails.length === 0 ? (
 							<Text>No Followers yet</Text>
 						) : (
-							followersDetails.map(({ userName, followedByViewer }) => {
+							followersDetails.map(({ userName, followedByViewer, avatar }) => {
 								return (
 									<Flex key={userName} {...userCardWrapperStyle}>
 										<Link to={`/profile/${userName}`}>
@@ -107,7 +107,7 @@ export const FollowersContainer = ({ userName }) => {
 												<Avatar
 													{...mdAvatarStyle}
 													name={userName}
-													src='https://bit.ly/broken-link'
+													src={avatar}
 												/>
 												<Box>
 													<Text fontSize='0.9rem' fontWeight={500}>

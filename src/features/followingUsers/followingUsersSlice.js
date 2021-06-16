@@ -30,7 +30,6 @@ const followingUsersSlice = createSlice({
 	},
 	reducers: {
 		resetFollowing: (state) => {
-			console.log('runs...');
 			state.followingDetails = [];
 		},
 	},
