@@ -7,7 +7,9 @@ import {
 	IconButton,
 	Text,
 	Image,
+	Flex,
 } from '@chakra-ui/react';
+import { DeleteIcon } from '@chakra-ui/icons';
 import { userLikesClicked } from '../posts/postSlice';
 import {
 	postCardUserInfoStyle,
@@ -20,10 +22,14 @@ import {
 	postMediaStyle,
 } from '../styles';
 import Linkify from 'react-linkify';
-import { likeButtonClicked } from './profileSlice';
+import { deletePostBtnClicked, likeButtonClicked } from './profileSlice';
+import { useAuthentication } from '../authentication/authenticationSlice';
 
 export const PostCard = ({ post }) => {
 	const dispatch = useDispatch();
+	const {
+		authentication: { userName },
+	} = useAuthentication();
 
 	const getColorForIconButton = (criteria) =>
 		criteria ? 'pink.700' : 'gray.500';
@@ -48,19 +54,34 @@ export const PostCard = ({ post }) => {
 		);
 	};
 
+	const showDeleteBtn = post?.userId?.userName === userName;
+
 	return (
 		<>
 			<Box {...postCardWrapperStyle}>
-				<Box {...postCardUserInfoStyle}>
-					<Avatar
-						{...smallAvatarStyle}
-						name={post?.userId?.userName}
-						src={post?.userId?.avatar}
-					/>
-					<Link className='link-text' to={`/profile/${post?.userId?.userName}`}>
-						{post?.userId?.userName}
-					</Link>
-				</Box>
+				<Flex {...postCardUserInfoStyle} justifyContent='space-between'>
+					<Flex alignItems='center'>
+						<Avatar
+							{...smallAvatarStyle}
+							name={post?.userId?.userName}
+							src={post?.userId?.avatar}
+						/>
+						<Link
+							className='link-text'
+							to={`/profile/${post?.userId?.userName}`}>
+							{post?.userId?.userName}
+						</Link>
+					</Flex>
+					{showDeleteBtn && (
+						<IconButton
+							onClick={() =>
+								dispatch(deletePostBtnClicked({ postId: post._id }))
+							}
+							variant='iconBtn'
+							icon={<DeleteIcon />}
+						/>
+					)}
+				</Flex>
 				<Text {...postCardContentStyle} className='post-content'>
 					<Linkify
 						properties={{
@@ -83,6 +104,7 @@ export const PostCard = ({ post }) => {
 							aria-label='like'
 							icon={<i className='fas fa-heart icon-btn'></i>}
 						/>
+
 						<IconButton
 							variant='actionBtnIcon'
 							aria-label='share'

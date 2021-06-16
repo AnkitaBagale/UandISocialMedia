@@ -43,7 +43,6 @@ const followingUsersSlice = createSlice({
 			console.log(action.error.message);
 		},
 		[followBtnClickedInFollowingList.fulfilled]: (state, action) => {
-			console.log({ action });
 			const index = state.followingDetails.findIndex(
 				(user) => user.userName === action.payload.userName,
 			);

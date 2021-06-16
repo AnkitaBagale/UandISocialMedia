@@ -21,12 +21,22 @@ export const loadUserProfile = createAsyncThunk(
 	},
 );
 
+export const deletePostBtnClicked = createAsyncThunk(
+	'posts/deletePostBtnClicked',
+	async ({ postId }) => {
+		const {
+			data: { response },
+		} = await axios.delete(`${API_URL}/posts/${postId}`);
+		return response;
+	},
+);
+
 export const loadUserPosts = createAsyncThunk(
 	'profile/loadUserPosts',
 	async (userName) => {
 		const {
 			data: { response },
-		} = await axios.get(`${API_URL}/posts/${userName}`);
+		} = await axios.get(`${API_URL}/posts/user/${userName}`);
 
 		return response;
 	},
@@ -149,6 +159,14 @@ const profileSlice = createSlice({
 		},
 		[removeFromFollowersBtnClicked.rejected]: (state, action) => {
 			console.log(action.error.message);
+		},
+		[deletePostBtnClicked.fulfilled]: (state, action) => {
+			const index = state.postsDetails.findIndex(
+				(post) => post._id === action.payload,
+			);
+			if (index !== -1) {
+				state.postsDetails.splice(index, 1);
+			}
 		},
 	},
 });

@@ -8,8 +8,8 @@ import followingReducer from '../features/followingUsers/followingUsersSlice';
 
 export const store = configureStore({
 	reducer: {
-		posts: postReducer,
 		authentication: authenticationReducer,
+		posts: postReducer,
 		users: usersReducer,
 		profile: profileReducer,
 		followers: followersReducer,

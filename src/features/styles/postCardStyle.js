@@ -4,7 +4,6 @@ export const postCardWrapperStyle = {
 	boxShadow: '0px 0px 10px 4px rgb(0 0 0 / 5%)',
 };
 export const postCardUserInfoStyle = {
-	d: 'flex',
 	minHeight: '3.75rem',
 	padding: '0.5rem 1rem',
 	alignItems: 'center',

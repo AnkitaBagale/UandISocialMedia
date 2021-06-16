@@ -3,7 +3,10 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { logoutUser } from '../authentication/authenticationSlice';
 import { followBtnClicked } from '../followersUsers/followersUsersSlice';
-import { likeButtonClicked } from '../profile/profileSlice';
+import {
+	deletePostBtnClicked,
+	likeButtonClicked,
+} from '../profile/profileSlice';
 import { API_URL } from '../utils';
 
 export const loadPosts = createAsyncThunk('posts/loadPosts', async () => {
@@ -103,6 +106,14 @@ export const postSlice = createSlice({
 				state.posts = state.posts.filter(
 					({ _id }) => !action.payload.posts.find((post) => post._id === _id),
 				);
+			}
+		},
+		[deletePostBtnClicked.fulfilled]: (state, action) => {
+			const index = state.posts.findIndex(
+				(post) => post._id === action.payload,
+			);
+			if (index !== -1) {
+				state.posts.splice(index, 1);
 			}
 		},
 	},

@@ -186,5 +186,3 @@ export const UpdateProfileForm = () => {
 		</>
 	);
 };
-
-// <i class="fas fa-camera"></i>
