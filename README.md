@@ -2,12 +2,13 @@
 
 U and I Social Media app frontend
 
-Tech Stack - React + Redux Toolkit, Chakra UI, MongoDB+Mongoose, Express JS
+Tech Stack - React + Redux Toolkit, Chakra UI, MongoDB+Mongoose, Express JS 
 
 Functionalities-
 
-1. Authentication- JWT, login, Sign up, U&I OAuth
+1. Authentication- JWT, login, Sign up, U&I OAuth  (https://github.com/AnkitaBagale/uandistore/tree/sm-development)
 1. Compose Post, Posts feed, Like Post
+1. Claudinary to upload images and post them
 1. Search User
 1. Follow and unfollow user
 1. Remove user from viewer's followers' list
@@ -19,4 +20,3 @@ Functionalities-
 Upcoming features-
 
 1. Notification/Activities window
-1. image and video support in compose post
