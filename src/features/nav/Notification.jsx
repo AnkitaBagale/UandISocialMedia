@@ -31,7 +31,7 @@ export const Notification = () => {
 					icon={<i className='far fa-bell icon-btn-nav-item'></i>}
 				/>
 			</PopoverTrigger>
-			<PopoverContent maxH='80vh' overflowY='auto' pr='1rem' pl='1rem'>
+			<PopoverContent maxH='80vh' overflowY='auto' p='1rem'>
 				<PopoverArrow />
 				<PopoverCloseButton />
 				<Box onClick={onClose}>

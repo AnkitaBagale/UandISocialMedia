@@ -17,11 +17,14 @@ export const NotificationCard = ({ activity }) => {
 					<Text fontSize='0.9rem' fontWeight={500}>
 						{activity.activityUserId.userName}
 					</Text>
-					<Text fontSize='0.9rem' color='gray.500'>
+					<Text fontSize='0.9rem' color='gray.800' pr='0.25rem'>
 						{activity.activityTitle}
-						<Text as='em'>
+						<Text as='em' pr='0.25rem'>
 							{activity?.likedPost?.caption &&
 								`: ${activity?.likedPost?.caption}`}
+						</Text>
+						<Text fontSize='0.8rem' color='gray.500'>
+							{activity.time}
 						</Text>
 					</Text>
 				</Box>
