@@ -121,7 +121,7 @@ export const ComposePostForm = () => {
 					type: SET_CAPTION,
 					payload: { caption: 'Great Learning Experience!' },
 				});
-				dispatch(storeSharedPost({ title: null }));
+				dispatch(storeSharedPost(null));
 			})();
 		}
 	}, [token, sharedPost, SET_CAPTION, SET_CONTENT, dispatch, onOpen]);
@@ -159,6 +159,10 @@ export const ComposePostForm = () => {
 	return (
 		<>
 			<IconButton
+				position={{ base: 'fixed', md: 'static' }}
+				zIndex={2}
+				bottom={'1rem'}
+				left='calc(50%)'
 				onClick={onOpen}
 				variant='iconBtn'
 				icon={<i className='fas fa-plus-circle icon-btn-nav-item'></i>}
@@ -277,8 +281,9 @@ const EmojiContainer = ({ formDispatch }) => {
 
 				<PopoverBody>
 					<HStack wrap='wrap' spacing='0'>
-						{emojis.map((emoji) => (
+						{emojis.map((emoji, index) => (
 							<Button
+								key={index}
 								onClick={() =>
 									formDispatch({ type: EMOJI_CLICKED, payload: { emoji } })
 								}

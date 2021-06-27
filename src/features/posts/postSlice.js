@@ -53,7 +53,7 @@ export const postSlice = createSlice({
 			state.usersWhoLikedPost = [];
 		},
 		storeSharedPost: (state, action) => {
-			state.sharedPost = action.payload.title;
+			state.sharedPost = action.payload;
 		},
 	},
 	extraReducers: {

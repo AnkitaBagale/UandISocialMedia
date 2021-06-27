@@ -13,11 +13,11 @@ export const DesktopNav = () => {
 	} = useAuthentication();
 	return (
 		<HStack spacing='1rem' alignItems='center'>
+			<ComposePostForm />
 			<HStack
 				display={{ base: 'none', md: 'flex' }}
 				spacing='1rem'
 				alignItems='center'>
-				<ComposePostForm />
 				<Link to='/'>
 					<IconButton
 						variant='iconBtn'

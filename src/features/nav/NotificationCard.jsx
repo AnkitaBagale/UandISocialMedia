@@ -23,7 +23,8 @@ export const NotificationCard = ({ activity }) => {
 							{activity?.likedPost?.caption &&
 								`: ${activity?.likedPost?.caption}`}
 						</Text>
-						<Text fontSize='0.8rem' color='gray.500'>
+						<br />
+						<Text as='span' fontSize='0.8rem' color='gray.500'>
 							{activity.time}
 						</Text>
 					</Text>

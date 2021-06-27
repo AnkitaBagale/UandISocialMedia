@@ -45,7 +45,7 @@ function App() {
 
 	useEffect(() => {
 		if (sharedPostTitle) {
-			dispatch(storeSharedPost({ title: sharedPostTitle }));
+			dispatch(storeSharedPost(sharedPostTitle));
 		}
 	}, [dispatch, sharedPostTitle]);
 
