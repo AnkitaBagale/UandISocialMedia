@@ -18,7 +18,7 @@ export const colors = {
 		100: 'white',
 	},
 	violet: {
-		900: '#3F3947',
+		900: '#282c3f',
 		300: '#a7a7a7',
 	},
 };

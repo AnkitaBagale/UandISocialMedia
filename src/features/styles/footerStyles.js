@@ -3,8 +3,7 @@ export const footerWrapperStyle = {
 	mx: 'auto',
 	width: '100%',
 	p: '2rem',
-	bg: 'violet.900',
-	color: 'white',
+	bg: 'gray.400',
 };
 
 export const buttonGroupStyle = {
@@ -15,5 +14,4 @@ export const buttonGroupStyle = {
 export const copyRightTextStyle = {
 	fontSize: '0.875rem',
 	fontWeight: '300',
-	color: 'violet.300',
 };
