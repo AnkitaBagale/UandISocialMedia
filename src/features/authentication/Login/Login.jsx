@@ -66,8 +66,16 @@ export const Login = () => {
 
 	return (
 		<>
+			<Heading {...headingStyle} fontSize='xx-large'>
+				Welcome to{' '}
+				<Box as='span' color='pink.700'>
+					U&I Talks
+				</Box>
+			</Heading>
 			<Box {...formWrapperStyle}>
-				<Heading {...headingStyle}>LOGIN</Heading>
+				<Heading {...headingStyle} fontSize='x-large'>
+					LOGIN
+				</Heading>
 				<Box position='relative'>
 					<Box>
 						{formState.status === 'loading' && (
