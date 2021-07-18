@@ -44,7 +44,7 @@ export const Login = () => {
 		formDispatch({ type: action.type, payload: '' });
 	};
 
-	const loginUser = async () => {
+	const loginUser = async (formState) => {
 		formDispatch({ type: 'RESET_ERRORS' });
 		if (checkLoginFormValidity(formState, formDispatch)) {
 			formDispatch({ type: 'SET_STATUS', payload: 'loading' });
@@ -148,10 +148,27 @@ export const Login = () => {
 						</FormControl>
 
 						<Button
-							variant='blockPrimary'
+							variant='blockOutline'
 							mt='2rem'
 							onClick={() => {
-								loginUser();
+								formDispatch({
+									type: 'SET_PASSWORD',
+									payload: 'test@test.com',
+								});
+								formDispatch({
+									type: 'SET_EMAIL',
+									payload: 'Test1234',
+								});
+								loginUser({ email: 'test@test.com', password: 'Test1234' });
+							}}>
+							Login with Test Credentials
+						</Button>
+
+						<Button
+							variant='blockPrimary'
+							mt='1rem'
+							onClick={() => {
+								loginUser(formState);
 							}}>
 							Login
 						</Button>
