@@ -36,7 +36,7 @@ import { checkLoginFormValidity } from './utils';
 import { loginFormReducer, initialFormState } from './reducers';
 import { loginBtnClicked } from '../authenticationSlice';
 import logo from '../../../assets/logo.png';
-import promo from '../../../assets/promo6.png';
+import promo from '../../../assets/promo.gif';
 
 export const Login = () => {
 	const [formState, formDispatch] = useReducer(
@@ -71,8 +71,8 @@ export const Login = () => {
 	};
 
 	return (
-		<SimpleGrid columns={[2, 2, 2]}>
-			<Img src={promo} />
+		<SimpleGrid columns={[1, 1, 2]}>
+			<Img display={{ base: 'none', md: 'block' }} src={promo} />
 			<Box padding='0rem 1.5rem 2rem'>
 				<Box {...formWrapperStyle} boxShadow='none' mb={0}>
 					<Heading {...headingStyle} fontSize='x-large'>
@@ -83,7 +83,9 @@ export const Login = () => {
 							</Box>
 							I
 						</Box>
-						<Box {...logoTaglineStyle}>LET'S TALK</Box>
+						<Box {...logoTaglineStyle} display='block'>
+							LET'S TALK
+						</Box>
 					</Heading>
 
 					<Box position='relative'>
