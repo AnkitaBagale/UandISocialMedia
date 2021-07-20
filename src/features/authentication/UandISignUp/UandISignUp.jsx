@@ -11,7 +11,7 @@ export const UandISignUp = () => {
 	const [status, setStatus] = useState('');
 
 	return (
-		<>
+		<Box padding='2rem 1.5rem'>
 			{status === 'PHASE2_SUCCESS' ? (
 				<ThankYouScreen message='Thank you for signing up!' />
 			) : (
@@ -27,7 +27,7 @@ export const UandISignUp = () => {
 					<SignUpOrLoginOption />
 				</>
 			)}
-		</>
+		</Box>
 	);
 };
 

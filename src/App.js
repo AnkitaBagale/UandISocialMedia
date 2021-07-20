@@ -64,7 +64,7 @@ function App() {
 	return (
 		<Box>
 			<Nav />
-			<Box padding='2rem 1.5rem' minHeight='70vh' mt='5rem'>
+			<Box minHeight='70vh'>
 				{showLikesContainer && <LikesContainer />}
 				<Routes>
 					<PrivateRoute path='/' element={<Posts />} />

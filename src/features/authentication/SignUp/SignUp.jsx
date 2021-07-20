@@ -51,7 +51,7 @@ export const SignUp = () => {
 	};
 
 	return (
-		<>
+		<Box padding='2rem 1.5rem'>
 			{signUpStatus === 'success' ? (
 				<ThankYouScreen message='Thank you for signing up!' />
 			) : (
@@ -264,7 +264,7 @@ export const SignUp = () => {
 					<LoginOption />
 				</>
 			)}
-		</>
+		</Box>
 	);
 };
 

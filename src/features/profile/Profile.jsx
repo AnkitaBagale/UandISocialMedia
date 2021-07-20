@@ -76,7 +76,7 @@ export const Profile = () => {
 	};
 
 	return (
-		<>
+		<Box padding='2rem 1.5rem' mt='5rem'>
 			{profileDetails && (
 				<Box maxW='40rem' margin='auto'>
 					<Flex {...profileDetailsWrapperStyle}>
@@ -123,6 +123,6 @@ export const Profile = () => {
 					</Box>
 				</Box>
 			)}
-		</>
+		</Box>
 	);
 };

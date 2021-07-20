@@ -12,7 +12,7 @@ export const Logo = () => {
 				</Box>
 				I
 			</Box>
-			<Box {...logoTaglineStyle}>LET'S DESIGN TOGETHER</Box>
+			<Box {...logoTaglineStyle}>LET'S TALK</Box>
 		</Link>
 	);
 };

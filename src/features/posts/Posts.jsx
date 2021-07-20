@@ -10,6 +10,8 @@ export const Posts = () => {
 		<>
 			<Grid
 				margin='auto'
+				padding='2rem 1.5rem'
+				mt='5rem'
 				templateColumns={{ md: '3fr 1fr', base: '1fr' }}
 				gap='2rem'
 				justifyContent='space-around'>

@@ -77,11 +77,6 @@ export const PostCard = ({ post }) => {
 							aria-label='like'
 							icon={<i className='fas fa-heart icon-btn'></i>}
 						/>
-						<IconButton
-							variant='actionBtnIcon'
-							aria-label='share'
-							icon={<i className='fas fa-share-alt icon-btn'></i>}
-						/>
 					</ButtonGroup>
 					{getLikesText(post?.totalLikes)}
 					<Box pt='0.5rem'>

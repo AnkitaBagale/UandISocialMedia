@@ -24,6 +24,7 @@ export const SuggestionsSection = () => {
 		}
 		return unfollowedUsers;
 	};
+
 	return (
 		<GridItem display={{ md: 'block', base: 'none' }} overflowY='auto'>
 			<Box position='sticky'>

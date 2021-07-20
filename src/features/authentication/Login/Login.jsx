@@ -13,6 +13,8 @@ import {
 	Divider,
 	Text,
 	Image,
+	SimpleGrid,
+	Img,
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon, WarningTwoIcon } from '@chakra-ui/icons';
 import {
@@ -26,11 +28,15 @@ import {
 	apiErrorStyle,
 	apiErrorSymbolStyle,
 	overlayBoxStyle,
+	logoTitleStyle,
+	AndSymbolStyle,
+	logoTaglineStyle,
 } from '../../styles';
 import { checkLoginFormValidity } from './utils';
 import { loginFormReducer, initialFormState } from './reducers';
 import { loginBtnClicked } from '../authenticationSlice';
 import logo from '../../../assets/logo.png';
+import promo from '../../../assets/promo6.png';
 
 export const Login = () => {
 	const [formState, formDispatch] = useReducer(
@@ -65,135 +71,140 @@ export const Login = () => {
 	};
 
 	return (
-		<>
-			<Heading {...headingStyle} fontSize='xx-large'>
-				Welcome to{' '}
-				<Box as='span' color='pink.700'>
-					U&I Talks
-				</Box>
-			</Heading>
-			<Box {...formWrapperStyle}>
-				<Heading {...headingStyle} fontSize='x-large'>
-					LOGIN
-				</Heading>
-				<Box position='relative'>
-					<Box>
-						{formState.status === 'loading' && (
-							<Box {...overlayBoxStyle}>
-								<Loader
-									type='TailSpin'
-									color='#ff3f6c'
-									height={80}
-									width={80}
-								/>
+		<SimpleGrid columns={[2, 2, 2]}>
+			<Img src={promo} />
+			<Box padding='0rem 1.5rem 2rem'>
+				<Box {...formWrapperStyle} boxShadow='none' mb={0}>
+					<Heading {...headingStyle} fontSize='x-large'>
+						<Box as='span' {...logoTitleStyle}>
+							U
+							<Box as='span' {...AndSymbolStyle}>
+								&
 							</Box>
-						)}
-						<FormControl
-							id='email'
-							isRequired
-							{...inputWrapperStyle}
-							isInvalid={!!formState.emailError}>
-							<Box w='100%'>
-								<Input
-									type='email'
-									{...InputStyle}
-									placeholder='Enter your email here'
-									value={formState.email}
-									onChange={(e) =>
-										formDispatch({
-											type: 'SET_EMAIL',
-											payload: e.target.value,
-										})
-									}
-									onFocus={() =>
-										onFocusClearError({
-											type: 'SET_EMAIL_ERROR',
-											payload: '',
-										})
-									}
-								/>
-								<FormErrorMessage>{formState.emailError}</FormErrorMessage>
-							</Box>
-						</FormControl>
+							I
+						</Box>
+						<Box {...logoTaglineStyle}>LET'S TALK</Box>
+					</Heading>
 
-						<FormControl
-							id='password'
-							isRequired
-							{...inputWrapperStyle}
-							isInvalid={!!formState.passwordError}>
-							<Box w='100%'>
-								<Input
-									type={formState.showPassword ? 'type' : 'password'}
-									{...InputStyle}
-									placeholder='Enter your password here'
-									value={formState.password}
-									onChange={(e) =>
-										formDispatch({
-											type: 'SET_PASSWORD',
-											payload: e.target.value,
-										})
-									}
-									onFocus={() =>
-										onFocusClearError({
-											type: 'SET_PASSWORD_ERROR',
-											payload: '',
-										})
-									}
-								/>
-								<InputRightElement {...inputRightElementWrapperStyle}>
-									<Button
-										onClick={() => formDispatch({ type: 'SHOW_PASSWORD' })}
-										{...inputRightElementStyle}>
-										{formState.showPassword ? (
-											<ViewIcon {...inputRightElementIconStyle} />
-										) : (
-											<ViewOffIcon {...inputRightElementIconStyle} />
-										)}
-									</Button>
-								</InputRightElement>
-								<FormErrorMessage>{formState.passwordError}</FormErrorMessage>
-							</Box>
-						</FormControl>
+					<Box position='relative'>
+						<Box>
+							{formState.status === 'loading' && (
+								<Box {...overlayBoxStyle}>
+									<Loader
+										type='TailSpin'
+										color='#ff3f6c'
+										height={80}
+										width={80}
+									/>
+								</Box>
+							)}
+							<FormControl
+								id='email'
+								isRequired
+								{...inputWrapperStyle}
+								isInvalid={!!formState.emailError}>
+								<Box w='100%'>
+									<Input
+										type='email'
+										{...InputStyle}
+										placeholder='Enter your email here'
+										value={formState.email}
+										onChange={(e) =>
+											formDispatch({
+												type: 'SET_EMAIL',
+												payload: e.target.value,
+											})
+										}
+										onFocus={() =>
+											onFocusClearError({
+												type: 'SET_EMAIL_ERROR',
+												payload: '',
+											})
+										}
+									/>
+									<FormErrorMessage>{formState.emailError}</FormErrorMessage>
+								</Box>
+							</FormControl>
 
-						<Button
-							variant='blockOutline'
-							mt='2rem'
-							onClick={() => {
-								formDispatch({
-									type: 'SET_PASSWORD',
-									payload: 'test@test.com',
-								});
-								formDispatch({
-									type: 'SET_EMAIL',
-									payload: 'Test1234',
-								});
-								loginUser({ email: 'test@test.com', password: 'Test1234' });
-							}}>
-							Login with Test Credentials
-						</Button>
+							<FormControl
+								id='password'
+								isRequired
+								{...inputWrapperStyle}
+								isInvalid={!!formState.passwordError}>
+								<Box w='100%'>
+									<Input
+										type={formState.showPassword ? 'type' : 'password'}
+										{...InputStyle}
+										placeholder='Enter your password here'
+										value={formState.password}
+										onChange={(e) =>
+											formDispatch({
+												type: 'SET_PASSWORD',
+												payload: e.target.value,
+											})
+										}
+										onFocus={() =>
+											onFocusClearError({
+												type: 'SET_PASSWORD_ERROR',
+												payload: '',
+											})
+										}
+									/>
+									<InputRightElement {...inputRightElementWrapperStyle}>
+										<Button
+											onClick={() => formDispatch({ type: 'SHOW_PASSWORD' })}
+											{...inputRightElementStyle}>
+											{formState.showPassword ? (
+												<ViewIcon {...inputRightElementIconStyle} />
+											) : (
+												<ViewOffIcon {...inputRightElementIconStyle} />
+											)}
+										</Button>
+									</InputRightElement>
+									<FormErrorMessage>{formState.passwordError}</FormErrorMessage>
+								</Box>
+							</FormControl>
 
-						<Button
-							variant='blockPrimary'
-							mt='1rem'
-							onClick={() => {
-								loginUser(formState);
-							}}>
-							Login
-						</Button>
-						{formState.status === 'failure' && (
-							<Box {...apiErrorStyle}>
-								<WarningTwoIcon {...apiErrorSymbolStyle} />
-								{formState.apiError}
-							</Box>
-						)}
+							<Button
+								variant='blockOutline'
+								mt='2rem'
+								onClick={() => {
+									formDispatch({
+										type: 'SET_PASSWORD',
+										payload: 'test@test.com',
+									});
+									formDispatch({
+										type: 'SET_EMAIL',
+										payload: 'Test1234',
+									});
+									loginUser({ email: 'test@test.com', password: 'Test1234' });
+								}}>
+								Login with Test Credentials
+							</Button>
 
-						<DividerWithTextOverlay />
-						<LoginWithUandIOption />
+							<Button
+								variant='blockPrimary'
+								mt='1rem'
+								onClick={() => {
+									loginUser(formState);
+								}}>
+								Login
+							</Button>
+							{formState.status === 'failure' && (
+								<Box {...apiErrorStyle}>
+									<WarningTwoIcon {...apiErrorSymbolStyle} />
+									{formState.apiError}
+								</Box>
+							)}
+
+							<DividerWithTextOverlay />
+							<LoginWithUandIOption />
+						</Box>
 					</Box>
 				</Box>
+				<SignUpOption />
 			</Box>
-			<SignUpOption />
-		</>
+		</SimpleGrid>
 	);
 };
 
@@ -241,7 +252,7 @@ export const LoginWithUandIOption = () => {
 
 export const SignUpOption = () => {
 	return (
-		<Box {...formWrapperStyle}>
+		<Box {...formWrapperStyle} boxShadow='none' pt={0} mt={0}>
 			<Box textAlign='center'>
 				Don't have an account?
 				<Text as='button' color='pink.800' fontWeight='500'>
