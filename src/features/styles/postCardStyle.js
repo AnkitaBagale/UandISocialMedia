@@ -6,6 +6,7 @@ export const postCardWrapperStyle = {
 export const postCardUserInfoStyle = {
 	minHeight: '3.75rem',
 	padding: '0.5rem 1rem',
+	display: 'flex',
 	alignItems: 'center',
 	borderBottom: '1px solid',
 	borderColor: 'gray.400',
