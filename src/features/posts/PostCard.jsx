@@ -21,6 +21,7 @@ import {
 	postMediaStyle,
 } from '../styles';
 import { likeButtonClicked } from '../profile/profileSlice';
+import { ComponentDecorator } from '../utils/ComponentDecorator';
 
 export const PostCard = ({ post }) => {
 	const getColorForIconButton = (criteria) =>
@@ -60,10 +61,7 @@ export const PostCard = ({ post }) => {
 					</Link>
 				</Box>
 				<Text {...postCardContentStyle} className='post-content'>
-					<Linkify
-						properties={{
-							target: '_blank',
-						}}>
+					<Linkify componentDecorator={ComponentDecorator}>
 						{post?.content}
 					</Linkify>
 				</Text>
@@ -85,7 +83,9 @@ export const PostCard = ({ post }) => {
 							className='link-text'>
 							<Text {...userNameInCaptionStyle}>{post?.userId?.userName}</Text>
 						</Link>
-						<Linkify properties={{ target: '_blank' }}>{post?.caption}</Linkify>
+						<Linkify componentDecorator={ComponentDecorator}>
+							{post?.caption}
+						</Linkify>
 					</Box>
 
 					<Box pt='0.5rem' color='gray.500'>

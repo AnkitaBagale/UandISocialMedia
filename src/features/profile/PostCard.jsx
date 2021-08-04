@@ -24,6 +24,7 @@ import {
 import Linkify from 'react-linkify';
 import { deletePostBtnClicked, likeButtonClicked } from './profileSlice';
 import { useAuthentication } from '../authentication/authenticationSlice';
+import { ComponentDecorator } from '../utils/ComponentDecorator';
 
 export const PostCard = ({ post }) => {
 	const dispatch = useDispatch();
@@ -83,10 +84,7 @@ export const PostCard = ({ post }) => {
 					)}
 				</Flex>
 				<Text {...postCardContentStyle} className='post-content'>
-					<Linkify
-						properties={{
-							target: '_blank',
-						}}>
+					<Linkify componentDecorator={ComponentDecorator}>
 						{post?.content}
 					</Linkify>
 				</Text>
@@ -112,7 +110,9 @@ export const PostCard = ({ post }) => {
 							className='link-text'>
 							<Text {...userNameInCaptionStyle}>{post?.userId?.userName}</Text>
 						</Link>
-						{post?.caption}
+						<Linkify componentDecorator={ComponentDecorator}>
+							{post?.caption}
+						</Linkify>
 					</Box>
 
 					<Box pt='0.5rem' color='gray.500'>
